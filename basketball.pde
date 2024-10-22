@@ -16,6 +16,19 @@ PImage redBird;
 FPoly floor; 
 FPoly bottomPlatform;
 
+//left net
+FPoly lbasketp1;
+FPoly lbasketp2;
+FPoly lcontact;
+FPoly lcontact2;
+FPoly rect;
+FPoly rbasketp1;
+FPoly rbasketp2;
+FPoly rcontact;
+FPoly rcontact2;
+//ball
+FCircle ball;
+//player
 FBox leftPlayer;
 FBox rightPlayer;
 //fisica
@@ -33,9 +46,12 @@ void setup() {
 
   //add terrain to world
   ground();
- 
+  lbasket();
+  rbasket();
  leftPlayer();
  rightPlayer();
+ ball();
+ 
 }
 
 //===========================================================================================
@@ -48,7 +64,98 @@ void makeWorld() {
 }
 
 //===========================================================================================
+void lbasket(){
+   //scoring
+   lcontact=new FPoly();
+   lcontact.setFillColor(red);
+   lcontact.vertex(0,height/2-5);
+   lcontact.vertex(55,height/2-5);
+   lcontact.vertex(55,height/2-8);
+   lcontact.vertex(0,height/2-8);
+   lcontact.setStatic(true);
+   world.add(lcontact);
+   
+  //scoring p2
+  
+   lcontact2=new FPoly();
+   lcontact2.setFillColor(red);
+  lcontact2.vertex(46,height/2-5);
+  lcontact2.vertex(96,height/2-100);
+  lcontact2.vertex(101,height/2-100);
+  lcontact2.vertex(49,height/2);
+   lcontact2.vertex(46,height/2);
+  lcontact2.setStatic(true);
+  world.add(lcontact2);
+  
+  //basket part 1
+  lbasketp1=new FPoly();
+  lbasketp1.vertex(0,height/2);
+  lbasketp1.vertex(50,height/2);
+  lbasketp1.vertex(50,height/2-5);
+  lbasketp1.vertex(0,height/2-5);
+   lbasketp1.setStatic(true);
+  world.add(lbasketp1);
 
+  //basket part 2
+  lbasketp2=new FPoly();
+  lbasketp2.vertex(50,height/2-5);
+  lbasketp2.vertex(100,height/2-100);
+  lbasketp2.vertex(105,height/2-100);
+  lbasketp2.vertex(53,height/2);
+   lbasketp2.vertex(50,height/2);
+  lbasketp2.setStatic(true);
+  world.add(lbasketp2);
+  
+ //sensor
+ rect= new FPoly();
+ rect.vertex(100,height/2-100);
+ rect.vertex(0,height/2-100);
+ rect.vertex(0,height/2-95);
+ rect.vertex(100,height/2-95);
+ rect.setSensor(true);
+}
+
+void rbasket(){
+   //scoring
+   rcontact=new FPoly();
+   rcontact.setFillColor(green);
+   rcontact.vertex(width,height/2-5);
+   rcontact.vertex(width-55,height/2-5);
+   rcontact.vertex(width-55,height/2-8);
+   rcontact.vertex(width,height/2-8);
+   rcontact.setStatic(true);
+   world.add(rcontact);
+   
+   //scoring p2
+  
+   rcontact2=new FPoly();
+   rcontact2.setFillColor(green);
+   rcontact2.vertex(width-46,height/2-5);
+   rcontact2.vertex(width-96,height/2-100);
+   rcontact2.vertex(width-101,height/2-100);
+   rcontact2.vertex(width-49,height/2);
+   rcontact2.vertex(width-46,height/2);
+   rcontact2.setStatic(true);
+   world.add(rcontact2);
+   //basket part 1
+  rbasketp1=new FPoly();
+  rbasketp1.vertex(width,height/2);
+  rbasketp1.vertex(width-50,height/2);
+  rbasketp1.vertex(width-50,height/2-5);
+  rbasketp1.vertex(width,height/2-5);
+   rbasketp1.setStatic(true);
+  world.add(rbasketp1);
+  
+   //basket part 2
+  rbasketp2=new FPoly();
+  rbasketp2.vertex(width-50,height/2-5);
+  rbasketp2.vertex(width-100,height/2-100);
+  rbasketp2.vertex(width-105,height/2-100);
+  rbasketp2.vertex(width-53,height/2);
+  rbasketp2.vertex(width-50,height/2);
+  rbasketp2.setStatic(true);
+  world.add(rbasketp2);
+}
 void ground() {
   floor = new FPoly();
 
@@ -61,7 +168,7 @@ void ground() {
   // define properties
   floor.setStatic(true);
   floor.setFillColor(brown);
-  floor.setFriction(0.1);
+  floor.setFriction(2);
 
   //put it in the world
   world.add(floor);
@@ -109,31 +216,77 @@ void keyReleased(){
  if(keyCode == RIGHT)rightkey=false;  
 }
 //===========================================================================================
+void ball(){
+  ball = new FCircle(25);
+  ball.setPosition(width/2, 0);
+  world.add(ball);
+  if(ballhitplayer(leftPlayer )==true || ballhitplayer(rightPlayer )==true){
+  ball.setRestitution(1.6);
+  } else ball.setRestitution(1.1);
+  
+}
 
+boolean ballhitplayer(FBox player){
+  ArrayList<FContact> contactList = ball.getContacts();
+  int i=0;
+  while (i<contactList.size()){
+   FContact myContact=contactList.get(i);
+   if(myContact.contains(player))
+     return true;
+   i++;
+  }
+  return false;
+}
+
+boolean leftscore(FCircle basketballball){
+  ArrayList<FContact> contactList = lcontact.getContacts();
+  int i=0;
+  while (i<contactList.size()){
+   FContact myContact=contactList.get(i);
+   if(myContact.contains(basketballball))
+     return true;
+   i++;
+  }
+  return false;
+}
+boolean leftscore2(FCircle basketballball2){
+  ArrayList<FContact> contactList = lcontact2.getContacts();
+  int i=0;
+  while (i<contactList.size()){
+   FContact myContact=contactList.get(i);
+   if(myContact.contains(basketballball2))
+     return true;
+   i++;
+  }
+  return false;
+}
 void leftPlayer(){
   leftPlayer = new FBox(50, 50);
+  leftPlayer.setFillColor(red);
   leftPlayer.setPosition(50, 450);
    world.add(leftPlayer);
 }
 
 void rightPlayer(){
+  fill(0,0,255);
   rightPlayer = new FBox(50, 50);
+  rightPlayer.setFillColor(green);
   rightPlayer.setPosition(750, 450);
    world.add(rightPlayer);
 }
 void handlePlayerInput(){
   float left_vx=leftPlayer.getVelocityX();
   float left_vy=leftPlayer.getVelocityY();
-  if (wkey && lhitground(floor)==true)leftPlayer.setVelocity(left_vx,-1000); 
-  if (skey)leftPlayer.setVelocity(left_vx,200);
+  if (wkey && lhitground(floor)==true)leftPlayer.setVelocity(left_vx,-800); 
+  if (skey)leftPlayer.setVelocity(left_vx,1000);
   if (akey)leftPlayer.setVelocity(-200,left_vy); 
   if (dkey)leftPlayer.setVelocity(200,left_vy);
   
   
    float right_vx=leftPlayer.getVelocityX();
   float right_vy=leftPlayer.getVelocityY();
-  if (upkey && rhitground(floor)==true)rightPlayer.setVelocity(right_vx,-1000); 
-  if (downkey)rightPlayer.setVelocity(right_vx,200);
+  if (upkey && rhitground(floor)==true)rightPlayer.setVelocity(right_vx,-800); 
+  if (downkey)rightPlayer.setVelocity(right_vx,1000);
   if (leftkey)rightPlayer.setVelocity(-200,right_vy); 
   if (rightkey)rightPlayer.setVelocity(200,right_vy);
 }
