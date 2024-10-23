@@ -15,7 +15,9 @@ PImage redBird;
 
 FPoly floor; 
 FPoly bottomPlatform;
-
+//scores
+float lscore=0;
+float rscore=0;
 //left net
 FPoly lbasketp1;
 FPoly lbasketp2;
@@ -239,23 +241,50 @@ boolean ballhitplayer(FBox player){
 }
 
 boolean leftscore(FCircle basketballball){
+  ArrayList<FContact> contactList = rcontact.getContacts();
+  int i=0;
+  while (i<contactList.size()){
+   FContact myContact=contactList.get(i);
+   if(myContact.contains(basketballball))
+     return true;
+     lscore=lscore+1;
+   i++;
+  }
+  return false;
+}
+boolean leftscore2(FCircle basketballball2){
+  ArrayList<FContact> contactList = rcontact2.getContacts();
+  int i=0;
+  while (i<contactList.size()){
+   FContact myContact=contactList.get(i);
+   if(myContact.contains(basketballball2))
+     return true;
+     lscore=lscore+1;
+   i++;
+  }
+  return false;
+}
+
+boolean rightscore(FCircle basketballball){
   ArrayList<FContact> contactList = lcontact.getContacts();
   int i=0;
   while (i<contactList.size()){
    FContact myContact=contactList.get(i);
    if(myContact.contains(basketballball))
      return true;
+     rscore=rscore+1;
    i++;
   }
   return false;
 }
-boolean leftscore2(FCircle basketballball2){
+boolean rightscore2(FCircle basketballball2){
   ArrayList<FContact> contactList = lcontact2.getContacts();
   int i=0;
   while (i<contactList.size()){
    FContact myContact=contactList.get(i);
    if(myContact.contains(basketballball2))
      return true;
+     rscore=rscore+1;
    i++;
   }
   return false;
