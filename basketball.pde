@@ -8,12 +8,12 @@ color green  = color(74, 163, 57);
 color red    = color(224, 80, 61);
 color yellow = color(242, 215, 16);
 //key board
-boolean wkey,akey,skey,dkey,upkey,downkey,rightkey,leftkey;
+boolean wkey, akey, skey, dkey, upkey, downkey, rightkey, leftkey;
 //assets
 PImage redBird;
 //jumping
 
-FPoly floor; 
+FPoly floor;
 FPoly bottomPlatform;
 //scores
 float lscore=0;
@@ -38,8 +38,8 @@ FWorld world;
 
 void setup() {
   //make window
-  size(800,600);
-  
+  size(800, 600);
+
   //load resources
   redBird = loadImage("red-bird.png");
 
@@ -50,10 +50,9 @@ void setup() {
   ground();
   lbasket();
   rbasket();
- leftPlayer();
- rightPlayer();
- ball();
- 
+  leftPlayer();
+  rightPlayer();
+  ball();
 }
 
 //===========================================================================================
@@ -66,95 +65,95 @@ void makeWorld() {
 }
 
 //===========================================================================================
-void lbasket(){
-   //scoring
-   lcontact=new FPoly();
-   lcontact.setFillColor(red);
-   lcontact.vertex(0,height/2-5);
-   lcontact.vertex(55,height/2-5);
-   lcontact.vertex(55,height/2-8);
-   lcontact.vertex(0,height/2-8);
-   lcontact.setStatic(true);
-   world.add(lcontact);
-   
+void lbasket() {
+  //scoring
+  lcontact=new FPoly();
+  lcontact.setFillColor(red);
+  lcontact.vertex(0, height/2-5);
+  lcontact.vertex(55, height/2-5);
+  lcontact.vertex(55, height/2-8);
+  lcontact.vertex(0, height/2-8);
+  lcontact.setStatic(true);
+  world.add(lcontact);
+
   //scoring p2
-  
-   lcontact2=new FPoly();
-   lcontact2.setFillColor(red);
-  lcontact2.vertex(46,height/2-5);
-  lcontact2.vertex(96,height/2-100);
-  lcontact2.vertex(101,height/2-100);
-  lcontact2.vertex(49,height/2);
-   lcontact2.vertex(46,height/2);
+
+  lcontact2=new FPoly();
+  lcontact2.setFillColor(red);
+  lcontact2.vertex(46, height/2-5);
+  lcontact2.vertex(96, height/2-100);
+  lcontact2.vertex(101, height/2-100);
+  lcontact2.vertex(49, height/2);
+  lcontact2.vertex(46, height/2);
   lcontact2.setStatic(true);
   world.add(lcontact2);
-  
+
   //basket part 1
   lbasketp1=new FPoly();
-  lbasketp1.vertex(0,height/2);
-  lbasketp1.vertex(50,height/2);
-  lbasketp1.vertex(50,height/2-5);
-  lbasketp1.vertex(0,height/2-5);
-   lbasketp1.setStatic(true);
+  lbasketp1.vertex(0, height/2);
+  lbasketp1.vertex(50, height/2);
+  lbasketp1.vertex(50, height/2-5);
+  lbasketp1.vertex(0, height/2-5);
+  lbasketp1.setStatic(true);
   world.add(lbasketp1);
 
   //basket part 2
   lbasketp2=new FPoly();
-  lbasketp2.vertex(50,height/2-5);
-  lbasketp2.vertex(100,height/2-100);
-  lbasketp2.vertex(105,height/2-100);
-  lbasketp2.vertex(53,height/2);
-   lbasketp2.vertex(50,height/2);
+  lbasketp2.vertex(50, height/2-5);
+  lbasketp2.vertex(100, height/2-100);
+  lbasketp2.vertex(105, height/2-100);
+  lbasketp2.vertex(53, height/2);
+  lbasketp2.vertex(50, height/2);
   lbasketp2.setStatic(true);
   world.add(lbasketp2);
-  
- //sensor
- rect= new FPoly();
- rect.vertex(100,height/2-100);
- rect.vertex(0,height/2-100);
- rect.vertex(0,height/2-95);
- rect.vertex(100,height/2-95);
- rect.setSensor(true);
+
+  //sensor
+  rect= new FPoly();
+  rect.vertex(100, height/2-100);
+  rect.vertex(0, height/2-100);
+  rect.vertex(0, height/2-95);
+  rect.vertex(100, height/2-95);
+  rect.setSensor(true);
 }
 
-void rbasket(){
-   //scoring
-   rcontact=new FPoly();
-   rcontact.setFillColor(green);
-   rcontact.vertex(width,height/2-5);
-   rcontact.vertex(width-55,height/2-5);
-   rcontact.vertex(width-55,height/2-8);
-   rcontact.vertex(width,height/2-8);
-   rcontact.setStatic(true);
-   world.add(rcontact);
-   
-   //scoring p2
-  
-   rcontact2=new FPoly();
-   rcontact2.setFillColor(green);
-   rcontact2.vertex(width-46,height/2-5);
-   rcontact2.vertex(width-96,height/2-100);
-   rcontact2.vertex(width-101,height/2-100);
-   rcontact2.vertex(width-49,height/2);
-   rcontact2.vertex(width-46,height/2);
-   rcontact2.setStatic(true);
-   world.add(rcontact2);
-   //basket part 1
+void rbasket() {
+  //scoring
+  rcontact=new FPoly();
+  rcontact.setFillColor(green);
+  rcontact.vertex(width, height/2-5);
+  rcontact.vertex(width-55, height/2-5);
+  rcontact.vertex(width-55, height/2-8);
+  rcontact.vertex(width, height/2-8);
+  rcontact.setStatic(true);
+  world.add(rcontact);
+
+  //scoring p2
+
+  rcontact2=new FPoly();
+  rcontact2.setFillColor(green);
+  rcontact2.vertex(width-46, height/2-5);
+  rcontact2.vertex(width-96, height/2-100);
+  rcontact2.vertex(width-101, height/2-100);
+  rcontact2.vertex(width-49, height/2);
+  rcontact2.vertex(width-46, height/2);
+  rcontact2.setStatic(true);
+  world.add(rcontact2);
+  //basket part 1
   rbasketp1=new FPoly();
-  rbasketp1.vertex(width,height/2);
-  rbasketp1.vertex(width-50,height/2);
-  rbasketp1.vertex(width-50,height/2-5);
-  rbasketp1.vertex(width,height/2-5);
-   rbasketp1.setStatic(true);
+  rbasketp1.vertex(width, height/2);
+  rbasketp1.vertex(width-50, height/2);
+  rbasketp1.vertex(width-50, height/2-5);
+  rbasketp1.vertex(width, height/2-5);
+  rbasketp1.setStatic(true);
   world.add(rbasketp1);
-  
-   //basket part 2
+
+  //basket part 2
   rbasketp2=new FPoly();
-  rbasketp2.vertex(width-50,height/2-5);
-  rbasketp2.vertex(width-100,height/2-100);
-  rbasketp2.vertex(width-105,height/2-100);
-  rbasketp2.vertex(width-53,height/2);
-  rbasketp2.vertex(width-50,height/2);
+  rbasketp2.vertex(width-50, height/2-5);
+  rbasketp2.vertex(width-100, height/2-100);
+  rbasketp2.vertex(width-105, height/2-100);
+  rbasketp2.vertex(width-53, height/2);
+  rbasketp2.vertex(width-50, height/2);
   rbasketp2.setStatic(true);
   world.add(rbasketp2);
 }
@@ -184,162 +183,182 @@ void draw() {
   println("x: " + mouseX + " y: " + mouseY);
   background(blue);
 
-  //if (frameCount % 20 == 0) {  //Every 20 frames ...
-  //  makeCircle();
-  //  makeBlob();
-  //  makeBox();
-  //  makeBird();
-  //}
+  // Display the scores
+  fill(255);  // White color for the text
+  textSize(32);
+  textAlign(CENTER);
+
+  // Left Player Score
+  text("Left Player: " + lscore, width / 4, 50);
+
+  // Right Player Score
+  text("Right Player: " + rscore, 3 * width / 4, 50);
+  //reset after scoring
+
+  if (leftscore(ball)==true || leftscore2(ball)==true || rightscore(ball)==true || rightscore2(ball)==true) {
+    ball.setPosition(width/2, 0);
+    ball.setVelocity(0, 0);
+    rightPlayer.setPosition(750, 450);
+    leftPlayer.setPosition(50, 450);
+  }
   handlePlayerInput();
-  
+
   world.step();  //get box2D to calculate all the forces and new positions
   world.draw();  //ask box2D to convert this world to processing screen coordinates and draw
 }
 
-void keyPressed(){
- if(key == 'w' || key == 'W') wkey=true; 
- if(key == 'a' || key == 'A') akey=true; 
- if(key == 's' || key == 'S') skey=true;
- if(key == 'd' || key == 'D') dkey=true;
- if(keyCode == UP)upkey=true;
- if(keyCode == DOWN)downkey=true;
- if(keyCode == LEFT)leftkey=true;
- if(keyCode == RIGHT)rightkey=true;
+void keyPressed() {
+  if (key == 'w' || key == 'W') wkey=true;
+  if (key == 'a' || key == 'A') akey=true;
+  if (key == 's' || key == 'S') skey=true;
+  if (key == 'd' || key == 'D') dkey=true;
+  if (keyCode == UP)upkey=true;
+  if (keyCode == DOWN)downkey=true;
+  if (keyCode == LEFT)leftkey=true;
+  if (keyCode == RIGHT)rightkey=true;
 }
 
-void keyReleased(){
- if(key == 'w' || key == 'W') wkey=false; 
- if(key == 'a' || key == 'A') akey=false; 
- if(key == 's' || key == 'S') skey=false;
- if(key == 'd' || key == 'D') dkey=false;
- if(keyCode == UP)upkey=false;
- if(keyCode == DOWN)downkey=false;
- if(keyCode == LEFT)leftkey=false;
- if(keyCode == RIGHT)rightkey=false;  
+void keyReleased() {
+  if (key == 'w' || key == 'W') wkey=false;
+  if (key == 'a' || key == 'A') akey=false;
+  if (key == 's' || key == 'S') skey=false;
+  if (key == 'd' || key == 'D') dkey=false;
+  if (keyCode == UP)upkey=false;
+  if (keyCode == DOWN)downkey=false;
+  if (keyCode == LEFT)leftkey=false;
+  if (keyCode == RIGHT)rightkey=false;
 }
 //===========================================================================================
-void ball(){
+void ball() {
   ball = new FCircle(25);
   ball.setPosition(width/2, 0);
   world.add(ball);
-  if(ballhitplayer(leftPlayer )==true || ballhitplayer(rightPlayer )==true){
-  ball.setRestitution(1.6);
+  if (ballhitplayer(leftPlayer )==true || ballhitplayer(rightPlayer )==true) {
+    ball.setRestitution(1.6);
   } else ball.setRestitution(1.1);
-  
 }
 
-boolean ballhitplayer(FBox player){
+boolean ballhitplayer(FBox player) {
   ArrayList<FContact> contactList = ball.getContacts();
   int i=0;
-  while (i<contactList.size()){
-   FContact myContact=contactList.get(i);
-   if(myContact.contains(player))
-     return true;
-   i++;
+  while (i<contactList.size()) {
+    FContact myContact=contactList.get(i);
+    if (myContact.contains(player))
+      return true;
+    i++;
   }
   return false;
 }
 
-boolean leftscore(FCircle basketballball){
+boolean leftscore(FCircle basketballball) {
   ArrayList<FContact> contactList = rcontact.getContacts();
   int i=0;
-  while (i<contactList.size()){
-   FContact myContact=contactList.get(i);
-   if(myContact.contains(basketballball))
-     return true;
-     lscore=lscore+1;
-   i++;
+  while (i<contactList.size()) {
+    FContact myContact=contactList.get(i);
+    if (myContact.contains(basketballball)) {
+      lscore=lscore+1;
+      return true;
+      
+    }
+
+    i++;
   }
   return false;
 }
-boolean leftscore2(FCircle basketballball2){
+boolean leftscore2(FCircle basketballball2) {
   ArrayList<FContact> contactList = rcontact2.getContacts();
   int i=0;
-  while (i<contactList.size()){
-   FContact myContact=contactList.get(i);
-   if(myContact.contains(basketballball2))
-     return true;
+  while (i<contactList.size()) {
+    FContact myContact=contactList.get(i);
+    if (myContact.contains(basketballball2)){
      lscore=lscore+1;
-   i++;
+      return true;
+    }
+
+    i++;
   }
   return false;
 }
 
-boolean rightscore(FCircle basketballball){
+boolean rightscore(FCircle basketballball) {
   ArrayList<FContact> contactList = lcontact.getContacts();
   int i=0;
-  while (i<contactList.size()){
-   FContact myContact=contactList.get(i);
-   if(myContact.contains(basketballball))
-     return true;
-     rscore=rscore+1;
-   i++;
+  while (i<contactList.size()) {
+    FContact myContact=contactList.get(i);
+    if (myContact.contains(basketballball)){
+      rscore=rscore+1;
+      return true;
+    
+    }
+    i++;
   }
   return false;
 }
-boolean rightscore2(FCircle basketballball2){
+boolean rightscore2(FCircle basketballball2) {
   ArrayList<FContact> contactList = lcontact2.getContacts();
   int i=0;
-  while (i<contactList.size()){
-   FContact myContact=contactList.get(i);
-   if(myContact.contains(basketballball2))
-     return true;
-     rscore=rscore+1;
-   i++;
+  while (i<contactList.size()) {
+    FContact myContact=contactList.get(i);
+    if (myContact.contains(basketballball2)){
+         rscore=rscore+1;
+      return true;
+
+    }
+    i++;
   }
   return false;
 }
-void leftPlayer(){
+void leftPlayer() {
   leftPlayer = new FBox(50, 50);
   leftPlayer.setFillColor(red);
   leftPlayer.setPosition(50, 450);
-   world.add(leftPlayer);
+  world.add(leftPlayer);
 }
 
-void rightPlayer(){
-  fill(0,0,255);
+void rightPlayer() {
+  fill(0, 0, 255);
   rightPlayer = new FBox(50, 50);
   rightPlayer.setFillColor(green);
   rightPlayer.setPosition(750, 450);
-   world.add(rightPlayer);
+  world.add(rightPlayer);
 }
-void handlePlayerInput(){
+void handlePlayerInput() {
   float left_vx=leftPlayer.getVelocityX();
   float left_vy=leftPlayer.getVelocityY();
-  if (wkey && lhitground(floor)==true)leftPlayer.setVelocity(left_vx,-800); 
-  if (skey)leftPlayer.setVelocity(left_vx,1000);
-  if (akey)leftPlayer.setVelocity(-200,left_vy); 
-  if (dkey)leftPlayer.setVelocity(200,left_vy);
-  
-  
-   float right_vx=leftPlayer.getVelocityX();
+  if (wkey && lhitground(floor)==true)leftPlayer.setVelocity(left_vx, -800);
+  if (skey)leftPlayer.setVelocity(left_vx, 1000);
+  if (akey)leftPlayer.setVelocity(-200, left_vy);
+  if (dkey)leftPlayer.setVelocity(200, left_vy);
+
+
+  float right_vx=leftPlayer.getVelocityX();
   float right_vy=leftPlayer.getVelocityY();
-  if (upkey && rhitground(floor)==true)rightPlayer.setVelocity(right_vx,-800); 
-  if (downkey)rightPlayer.setVelocity(right_vx,1000);
-  if (leftkey)rightPlayer.setVelocity(-200,right_vy); 
-  if (rightkey)rightPlayer.setVelocity(200,right_vy);
+  if (upkey && rhitground(floor)==true)rightPlayer.setVelocity(right_vx, -800);
+  if (downkey)rightPlayer.setVelocity(right_vx, 1000);
+  if (leftkey)rightPlayer.setVelocity(-200, right_vy);
+  if (rightkey)rightPlayer.setVelocity(200, right_vy);
 }
 
-boolean lhitground(FPoly ground){
+boolean lhitground(FPoly ground) {
   ArrayList<FContact> contactList = leftPlayer.getContacts();
   int i=0;
-  while (i<contactList.size()){
-   FContact myContact=contactList.get(i);
-   if(myContact.contains(ground))
-     return true;
-   i++;
+  while (i<contactList.size()) {
+    FContact myContact=contactList.get(i);
+    if (myContact.contains(ground))
+      return true;
+    i++;
   }
   return false;
 }
 
-boolean rhitground(FPoly ground){
+boolean rhitground(FPoly ground) {
   ArrayList<FContact> contactList = rightPlayer.getContacts();
   int i=0;
-  while (i<contactList.size()){
-   FContact myContact=contactList.get(i);
-   if(myContact.contains(ground))
-     return true;
-   i++;
+  while (i<contactList.size()) {
+    FContact myContact=contactList.get(i);
+    if (myContact.contains(ground))
+      return true;
+    i++;
   }
   return false;
 }
