@@ -1,6 +1,10 @@
+Gif face;
 
+float mode=0;
+final float intro=1, game=2, gameover=3;
 import fisica.*;
 
+boolean rungame;
 //palette
 color blue   = color(29, 178, 242);
 color brown  = color(166, 120, 24);
@@ -10,9 +14,10 @@ color yellow = color(242, 215, 16);
 //key board
 boolean wkey, akey, skey, dkey, upkey, downkey, rightkey, leftkey;
 //assets
-PImage redBird;
+//PImage redBird;
 //jumping
-
+//basketball
+PImage basketball;
 FPoly floor;
 FPoly bottomPlatform;
 //scores
@@ -40,19 +45,22 @@ void setup() {
   //make window
   size(800, 600);
 
+  mode=intro;
   //load resources
-  redBird = loadImage("red-bird.png");
-
+  //basketball
+  basketball = loadImage("basketball2.png");
   //initialise world
   makeWorld();
-
+ face=new Gif("gif2/face", ".png", 8,5,width/2-100,height/2,200,200);// problem here
   //add terrain to world
+
   ground();
   lbasket();
   rbasket();
   leftPlayer();
   rightPlayer();
   ball();
+
 }
 
 //===========================================================================================
@@ -180,31 +188,28 @@ void ground() {
 //===========================================================================================
 
 void draw() {
-  println("x: " + mouseX + " y: " + mouseY);
-  background(blue);
 
-  // Display the scores
-  fill(255);  // White color for the text
-  textSize(32);
-  textAlign(CENTER);
-
-  // Left Player Score
-  text("Left Player: " + lscore, width / 4, 50);
-
-  // Right Player Score
-  text("Right Player: " + rscore, 3 * width / 4, 50);
-  //reset after scoring
-
-  if (leftscore(ball)==true || leftscore2(ball)==true || rightscore(ball)==true || rightscore2(ball)==true) {
-    ball.setPosition(width/2, 0);
-    ball.setVelocity(0, 0);
-    rightPlayer.setPosition(750, 450);
-    leftPlayer.setPosition(50, 450);
+  if (mode==intro) {
+    intro();
+    face.show(); 
+    rungame=false;
+  } else if (mode==game) {
+    rungame=true;
+    game();
+    world.draw();
+    world.step();
+  } else if(mode==gameover){
+    gameover();
+    
   }
-  handlePlayerInput();
 
-  world.step();  //get box2D to calculate all the forces and new positions
-  world.draw();  //ask box2D to convert this world to processing screen coordinates and draw
+
+  if (rungame==true) {
+   
+      //get box2D to calculate all the forces and new positions
+    
+  }
+  //ask box2D to convert this world to processing screen coordinates and draw
 }
 
 void keyPressed() {
@@ -232,6 +237,8 @@ void keyReleased() {
 void ball() {
   ball = new FCircle(25);
   ball.setPosition(width/2, 0);
+  basketball.resize(25,25);
+  ball.attachImage(basketball);
   world.add(ball);
   if (ballhitplayer(leftPlayer )==true || ballhitplayer(rightPlayer )==true) {
     ball.setRestitution(1.6);
@@ -258,7 +265,6 @@ boolean leftscore(FCircle basketballball) {
     if (myContact.contains(basketballball)) {
       lscore=lscore+1;
       return true;
-      
     }
 
     i++;
@@ -270,8 +276,8 @@ boolean leftscore2(FCircle basketballball2) {
   int i=0;
   while (i<contactList.size()) {
     FContact myContact=contactList.get(i);
-    if (myContact.contains(basketballball2)){
-     lscore=lscore+1;
+    if (myContact.contains(basketballball2)) {
+      lscore=lscore+1;
       return true;
     }
 
@@ -285,10 +291,9 @@ boolean rightscore(FCircle basketballball) {
   int i=0;
   while (i<contactList.size()) {
     FContact myContact=contactList.get(i);
-    if (myContact.contains(basketballball)){
+    if (myContact.contains(basketballball)) {
       rscore=rscore+1;
       return true;
-    
     }
     i++;
   }
@@ -299,10 +304,9 @@ boolean rightscore2(FCircle basketballball2) {
   int i=0;
   while (i<contactList.size()) {
     FContact myContact=contactList.get(i);
-    if (myContact.contains(basketballball2)){
-         rscore=rscore+1;
+    if (myContact.contains(basketballball2)) {
+      rscore=rscore+1;
       return true;
-
     }
     i++;
   }
