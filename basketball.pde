@@ -1,7 +1,7 @@
 Gif face;
 
 float mode=0;
-final float intro=1, game=2, gameover=3;
+final float intro=1, game=2, redwin=3, greenwin=4;
 import fisica.*;
 
 boolean rungame;
@@ -198,8 +198,11 @@ void draw() {
     game();
     world.draw();
     world.step();
-  } else if(mode==gameover){
-    gameover();
+  } else if(mode==redwin){
+    redwin();
+    
+  }else if(mode==greenwin){
+    greenwin();
     
   }
 

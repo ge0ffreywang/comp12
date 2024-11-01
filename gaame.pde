@@ -19,13 +19,19 @@ void game(){
     if (leftscore(ball)==true || leftscore2(ball)==true || rightscore(ball)==true || rightscore2(ball)==true) {
       ball.setPosition(width/2, 0);
       ball.setVelocity(0, 0);
+      ball.setAngularVelocity(0);
       rightPlayer.setPosition(750, 450);
       leftPlayer.setPosition(50, 450);
     }
 
     handlePlayerInput();
-  if (lscore==2 || rscore==2){
-    mode = gameover;
+  if (lscore==2 ){
+    mode = redwin;
+    
+  }
+  
+  if (rscore==2 ){
+    mode = greenwin;
     
   }
 }
