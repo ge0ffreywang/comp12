@@ -12,5 +12,19 @@ class FPlayer extends FBox{
    if(dkey)setVelocity(500,vy);
    if (wkey)setVelocity(vx, -500);
   if (skey)setVelocity(vx, 500);
+  if (touchingSpikes()) {
+    setPosition(300, 0);
+  }
+  }
+  
+  boolean touchingSpikes() {
+    ArrayList<FBox> playercontactlist= getTouching();
+    for (int i = 0; i < playercontactlist.size(); i++) {
+     FBox boxincontact = playercontactlist.get(i);
+     if (boxincontact.getName() == "spikes") {
+       return true;
+     }
+    }
+   return false;
   }
 }

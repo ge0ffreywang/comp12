@@ -18,7 +18,7 @@ color yellow     =#e5f018;
 
 
 
-PImage map, ice, stone, treeTrunk;
+PImage map, ice, stone, treeTrunk,spike;
 float zoom=1.5;
 int gridSize=32;
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey, ekey;
@@ -29,6 +29,7 @@ void setup() {
   world= new FWorld(-2000, -2000, 4000, 4000);
   world.setGravity(0, 900);
   map=loadImage("pixil-frame-0.png");
+  spike=loadImage("images/spike.png");
   loadWorld(map);
   loadPlayer();
 }
@@ -49,7 +50,8 @@ void loadWorld(PImage img) {
 
         b.setStatic(true);
         b.setGrabbable(false);
-        b.setName("lavablock");
+        b.setName("spikes");
+        b.attachImage(spike);
         world.add(b);
         
       }
