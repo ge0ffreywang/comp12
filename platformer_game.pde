@@ -30,6 +30,8 @@ void setup() {
   world.setGravity(0, 900);
   map=loadImage("pixil-frame-0.png");
   spike=loadImage("images/spike.png");
+  ice=loadImage("images/blueBlock.png");
+  stone=loadImage("images/brick.png");
   loadWorld(map);
   loadPlayer();
 }
@@ -44,6 +46,7 @@ void loadWorld(PImage img) {
         b.setStatic(true);
         b.setGrabbable(false);
         b.setName("stone");
+        b.attachImage(stone);
         world.add(b);
       }
       if (c==lavared) {
@@ -60,6 +63,7 @@ void loadWorld(PImage img) {
         b.setStatic(true);
         b.setGrabbable(false);
         b.setName("ice");
+        b.attachImage(ice);
         world.add(b);
         
       }

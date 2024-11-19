@@ -15,8 +15,20 @@ class FPlayer extends FBox{
   if (touchingSpikes()) {
     setPosition(300, 0);
   }
+  if(touchingIce()){
+   setFriction(0);
+  }else setFriction(5);
   }
-  
+  boolean touchingIce() {
+    ArrayList<FBox> playercontactlist= getTouching();
+    for (int i = 0; i < playercontactlist.size(); i++) {
+     FBox boxincontact = playercontactlist.get(i);
+     if (boxincontact.getName() == "ice") {
+       return true;
+     }
+    }
+   return false;
+  }
   boolean touchingSpikes() {
     ArrayList<FBox> playercontactlist= getTouching();
     for (int i = 0; i < playercontactlist.size(); i++) {
