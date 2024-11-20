@@ -17,8 +17,7 @@ color sidegreen  =#7cf782;
 color yellow     =#e5f018;
 
 
-
-PImage map, ice, stone, treeTrunk,spike;
+PImage map, ice, stone, treeTrunk,leftree,midtree,righttree,spike;
 float zoom=1.5;
 int gridSize=32;
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey, ekey;
@@ -32,6 +31,8 @@ void setup() {
   spike=loadImage("images/spike.png");
   ice=loadImage("images/blueBlock.png");
   stone=loadImage("images/brick.png");
+  treeTrunk=loadImage("images/tree_trunk.png");
+  
   loadWorld(map);
   loadPlayer();
 }
@@ -50,11 +51,20 @@ void loadWorld(PImage img) {
         world.add(b);
       }
       if (c==lavared) {
-
+        
         b.setStatic(true);
         b.setGrabbable(false);
         b.setName("spikes");
         b.attachImage(spike);
+        world.add(b);
+        
+      }
+      if (c==treebrown) {
+        b.setSensor(true);
+        b.setStatic(true);
+        b.setGrabbable(false);
+        b.setName("treetrunk");
+        b.attachImage(treeTrunk);
         world.add(b);
         
       }
@@ -71,6 +81,7 @@ void loadWorld(PImage img) {
 
         b.setStatic(true);
         b.setGrabbable(false);
+        b.setSensor(true);
         b.setName("treeleave'");
         world.add(b);
         
@@ -78,6 +89,7 @@ void loadWorld(PImage img) {
        if (c==midgreen) {
 
         b.setStatic(true);
+        b.setSensor(true);
         b.setGrabbable(false);
         b.setName("midtree");
         world.add(b);

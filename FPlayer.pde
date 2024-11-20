@@ -17,13 +17,28 @@ class FPlayer extends FBox{
   }
   if(touchingIce()){
    setFriction(0);
-  }else setFriction(5);
+  }
+  if(touchingStone()){
+   setFriction(7);
+  }
+  
+  
   }
   boolean touchingIce() {
     ArrayList<FBox> playercontactlist= getTouching();
     for (int i = 0; i < playercontactlist.size(); i++) {
      FBox boxincontact = playercontactlist.get(i);
      if (boxincontact.getName() == "ice") {
+       return true;
+     }
+    }
+   return false;
+  }
+  boolean touchingStone() {
+    ArrayList<FBox> playercontactlist= getTouching();
+    for (int i = 0; i < playercontactlist.size(); i++) {
+     FBox boxincontact = playercontactlist.get(i);
+     if (boxincontact.getName() == "stone") {
        return true;
      }
     }
