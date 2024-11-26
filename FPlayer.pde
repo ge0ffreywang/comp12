@@ -21,7 +21,9 @@ class FPlayer extends FBox{
   if(touchingStone()){
    setFriction(7);
   }
-  
+  if(trampoline()){
+  setVelocity(vx, -700);
+  }
   
   }
   boolean touchingIce() {
@@ -39,6 +41,16 @@ class FPlayer extends FBox{
     for (int i = 0; i < playercontactlist.size(); i++) {
      FBox boxincontact = playercontactlist.get(i);
      if (boxincontact.getName() == "stone") {
+       return true;
+     }
+    }
+   return false;
+  }
+  boolean trampoline() {
+    ArrayList<FBox> playercontactlist= getTouching();
+    for (int i = 0; i < playercontactlist.size(); i++) {
+     FBox boxincontact = playercontactlist.get(i);
+     if (boxincontact.getName() == "trampoline") {
        return true;
      }
     }

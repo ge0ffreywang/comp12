@@ -11,13 +11,11 @@ color purple     =#f702f7;
 color lavared    =#ff0045;
 color lblue      =#00f7ff;
 color treebrown  =#f05716;
-color green      =#00f008;
-color midgreen   =#007006;
-color sidegreen  =#7cf782;
+color green      =#7cf782;
 color yellow     =#e5f018;
 
 
-PImage map, ice, stone, treeTrunk,leftree,midtree,righttree,spike;
+PImage map, ice, stone, treeTrunk,treeLeaves,lefttree,midtree,righttree,spike,tramp;
 float zoom=1.5;
 int gridSize=32;
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey, ekey;
@@ -32,6 +30,11 @@ void setup() {
   ice=loadImage("images/blueBlock.png");
   stone=loadImage("images/brick.png");
   treeTrunk=loadImage("images/tree_trunk.png");
+  treeLeaves=loadImage("images/treetop_center.png");
+  lefttree=loadImage("images/treetop_w.png");
+  midtree=loadImage("images/tree_intersect.png");
+  righttree=loadImage("images/treetop_e.png");
+  tramp=loadImage("images/trampoline.png");
   
   loadWorld(map);
   loadPlayer();
@@ -39,7 +42,10 @@ void setup() {
 void loadWorld(PImage img) {
   for (int y=0; y<img.height; y++) {
     for (int x=0; x<img.width; x++) {
-      color c=map.get(x, y);
+      color c=map.get(x, y); 
+      color s=map.get(x, y+1);// color below
+      color w=map.get(x-1, y);// color left
+      color e=map.get(x+1, y);// color right
       FBox b=new FBox(gridSize, gridSize);
       b.setPosition(x*gridSize, y*gridSize);
       if (c==black) {
@@ -77,23 +83,53 @@ void loadWorld(PImage img) {
         world.add(b);
         
       }
-      if (c==green) {
+      if (c==green && w == green && e==green) {//normal
 
         b.setStatic(true);
         b.setGrabbable(false);
         b.setSensor(true);
-        b.setName("treeleave'");
+        b.attachImage(treeLeaves);
+        b.setName("avgtreeleave'");
         world.add(b);
         
       }
-       if (c==midgreen) {
+      if (c==green && w != green) {//l
+
+        b.setStatic(true);
+        b.setGrabbable(false);
+        b.setSensor(true);
+        b.attachImage(lefttree);
+        b.setName("leftleave'");
+        world.add(b);
+        
+      }
+      if (c==green && e != green) {//right
+
+        b.setStatic(true);
+        b.setGrabbable(false);
+        b.setSensor(true);
+        b.attachImage(righttree);
+        b.setName("rightleave");
+        world.add(b);
+        
+      }
+       if (c==green && s==treebrown) {//mid piece
 
         b.setStatic(true);
         b.setSensor(true);
         b.setGrabbable(false);
+        b.attachImage(midtree);
         b.setName("midtree");
         world.add(b);
         
+      }
+      if (c==purple) {
+       
+        b.setStatic(true);
+        b.setGrabbable(false);
+        b.setName("trampoline");
+        b.attachImage(tramp);
+        world.add(b);
       }
     }
   }
