@@ -1,4 +1,6 @@
-class FGameObject extends FBox {
+
+
+class FGameObject extends FBox{
 
   FGameObject() {
     super(gridSize, gridSize);

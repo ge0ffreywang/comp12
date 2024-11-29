@@ -16,16 +16,29 @@ color yellow     =#e5f018;
 
 
 PImage map, ice, stone, treeTrunk, treeLeaves, lefttree, midtree, righttree, spike, tramp, bridge;
+
+PImage[] idle;
+PImage[] jump;
+PImage[] run;
+PImage[] action;
 float zoom=1.5;
 int gridSize=32;
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey, ekey;
 FPlayer player;
+ArrayList<FGameObject> terrain;
 
 void setup() {
   size(800, 800);
   Fisica.init(this);
   world= new FWorld(-2000, -2000, 4000, 4000);
   world.setGravity(0, 900);
+  terrain=new ArrayList<FGameObject>();
+  loadImages();
+  loadWorld(map);
+  loadPlayer();
+}
+
+void loadImages() {
   map=loadImage("pixil-frame-0.png");
   spike=loadImage("images/spike.png");
   ice=loadImage("images/blueBlock.png");
@@ -37,8 +50,18 @@ void setup() {
   righttree=loadImage("images/treetop_e.png");
   tramp=loadImage("images/trampoline.png");
   bridge=loadImage("images/bridge_center.png");
-  loadWorld(map);
-  loadPlayer();
+  
+idle = new PImage [2];
+idle[0] = loadImage ("idle0.png") ;
+idle[1] = loadImage ("idlel.png") ;
+jump = new PImage [1];
+jump [0] = loadImage ("jumpo.png");
+run = new PImage [3] ;
+run [0] = loadImage ("runrighto.png") ;
+run [1] = loadImage ("runrightl.png");
+run [2] = loadImage("runright2.png") ;
+
+action=idle;
 }
 void loadWorld(PImage img) {
   for (int y=0; y<img.height; y++) {
@@ -126,11 +149,11 @@ void loadWorld(PImage img) {
         b.attachImage(tramp);
         world.add(b);
       }
-      if (c==yellow){
-      FBridge br = new FBridge(x*gridSize,y*geidSize);
-      
-      world.add(br);
-    }
+      if (c==yellow) {
+        FBridge br = new FBridge(x*gridSize, y*gridSize);
+        terrain.add(br);
+        world.add(br);
+      }
     }
   }
 }
@@ -142,9 +165,17 @@ void loadPlayer() {
 void draw() {
   background(white);
   drawWorld();
+  actWorld();
   player.act();
 }
 
+void actWorld() {
+  player.act();
+  for (int i=0; i< terrain.size(); i++) {
+    FGameObject t = terrain.get(i);
+    t.act();
+  }
+}
 void drawWorld() {
   pushMatrix();
   translate(-player.getX()*zoom+width/2, -player.getY()*zoom+height/2);
