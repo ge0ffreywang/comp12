@@ -1,5 +1,7 @@
 class FPlayer extends FGameObject {
 
+  int frame;
+  
   FPlayer () {
     super();
     setPosition(0, -300);
@@ -8,12 +10,45 @@ class FPlayer extends FGameObject {
     setFillColor(red);
   }
   void act() {
+    input();
+    collisions();
+    animate();
+  }
+  void animate() {
+    
+    if (frame>=action.length) frame=0;
+    if (frameCount %5 == 0) {
+      attachImage(action[frame]);
+      frame++;
+    }
+  }
+  void input() {
     float vy= getVelocityY();
     float vx= getVelocityX();
-    if (akey) setVelocity(-300, vy);
-    if (dkey)setVelocity(300, vy);
-    if (wkey)setVelocity(vx, -500);
-    if (skey)setVelocity(vx, 500);
+    if(abs(vy)<0.1){
+     action=idle; 
+    }
+    if (akey) {
+      action=run;
+      setVelocity(-300, vy);
+    }
+    if (dkey) {
+      action=run;
+      setVelocity(300, vy);
+    }
+    if (wkey) {
+      setVelocity(vx, -500);
+    }
+    if (skey) {
+      setVelocity(vx, 500);
+    }
+    if (abs(vy)>0.1) {
+      action=jump;
+    }
+  }
+ 
+  void collisions() {
+    
     if (touchingSpikes()) {
       setPosition(300, 0);
     }
@@ -24,7 +59,7 @@ class FPlayer extends FGameObject {
       setFriction(7);
     }
     if (trampoline()) {
-      setVelocity(vx, -700);
+      setVelocity(0, -700);
     }
   }
   boolean touchingIce() {
