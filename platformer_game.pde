@@ -13,20 +13,22 @@ color lblue      =#00f7ff;
 color treebrown  =#f05716;
 color green      =#7cf782;
 color yellow     =#e5f018;
-
-
+color goomba     =#dba423;
+color gwall      =#23d9d0;
 PImage map, ice, stone, treeTrunk, treeLeaves, lefttree, midtree, righttree, spike, tramp, bridge;
 
 PImage[] idle;
 PImage[] jump;
 PImage[] run;
 PImage[] action;
+PImage[] goomba;
+
 float zoom=1.5;
 int gridSize=32;
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey, ekey;
 FPlayer player;
 ArrayList<FGameObject> terrain;
-
+ArrayList<FGameObject> enemies;
 void setup() {
   size(800, 800);
   Fisica.init(this);
@@ -52,16 +54,23 @@ void loadImages() {
   bridge=loadImage("images/bridge_center.png");
   
 idle = new PImage [2];
-idle[0] = loadImage ("idle0.png") ;
-idle[1] = loadImage ("idlel.png") ;
+idle[0] = loadImage ("images/idle0.png") ;
+idle[1] = loadImage ("images/idle1.png") ;
 jump = new PImage [1];
-jump [0] = loadImage ("jumpo.png");
+jump [0] = loadImage ("images/jump0.png");
 run = new PImage [3] ;
-run [0] = loadImage ("runrighto.png") ;
-run [1] = loadImage ("runrightl.png");
-run [2] = loadImage("runright2.png") ;
+run [0] = loadImage ("images/runright0.png") ;
+run [1] = loadImage ("images/runright1.png");
+run [2] = loadImage("images/runright2.png") ;
 
 action=idle;
+
+//ememies-----
+goomba= new PImage[2];
+goomba[0]=loadImage("goomba0.png");
+goomba[0].resize(grieSize,gridSize);
+goomba[1]=loadImage("goomba1.png");
+goomba[1].resize(grieSize,gridSize);
 }
 void loadWorld(PImage img) {
   for (int y=0; y<img.height; y++) {
@@ -79,6 +88,11 @@ void loadWorld(PImage img) {
         b.setName("stone");
         b.attachImage(stone);
         world.add(b);
+      }
+      else if (c==gwall){
+        b.setName("wall");
+        b.attachImage(stone);
+        world.add(b);    
       }
       if (c==lavared) {
 
@@ -101,6 +115,7 @@ void loadWorld(PImage img) {
         b.setStatic(true);
         b.setGrabbable(false);
         b.setName("ice");
+        ice.resize(gridSize,gridSize);
         b.attachImage(ice);
         world.add(b);
       }
@@ -154,6 +169,11 @@ void loadWorld(PImage img) {
         terrain.add(br);
         world.add(br);
       }
+      if (c==goomba){
+        FGoomba gmb= new FGoomba(x*gridSize,y*gridSize);
+        enemies.add(gmb);
+        world.add(gmb);
+      }
     }
   }
 }
@@ -175,14 +195,11 @@ void actWorld() {
     FGameObject t = terrain.get(i);
     t.act();
   }
+  
+   for (int i=0; i< enemies.size(); i++) {
+    FGameObject e = enemies.get(i);
+    e.act();
+  }
 }
 void drawWorld() {
   pushMatrix();
-  translate(-player.getX()*zoom+width/2, -player.getY()*zoom+height/2);
-  scale(zoom);
-  world.step();
-  world.draw();
-
-
-  popMatrix();
-}
