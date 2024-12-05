@@ -1,10 +1,11 @@
-class FGoomba extends FGameobject {
+class FGoomba extends FGameObject {
 
   int direction = L;
   int speed = 50;
-  int frame = 0;
+  int frame=0;
 
   FGoomba(float x, float y) {
+    
     super();
     setPosition(x, y);
     setName("goomba");
@@ -20,21 +21,21 @@ class FGoomba extends FGameobject {
   void animate() {
     if (frame>=goomba.length) frame=0;
     if (frameCount%5==0) {
-      if (direction==R)attatchImage(goomba[frame]);
-      if (direction==R)attatchImage(reverseImage(goomba[frame]));
-      frame++;  
+      if (direction==R)attachImage(goomba[frame]);
+      if (direction==R)attachImage(reverseImage(goomba[frame]));
+      frame++;
+    }
   }
+
+  void collide() {
+    if (isTouching("gwall")) {
+      direction*=-1;
+      setPosition(getX()+direction, getY());
+    }
   }
-  
-  void collide(){
-   if (isTouching("gwall")){
-   direction*=-1;
-   setPosition(getX()+direction,getY());
-   }
-  }
-  
-  void move(){
-   float vy=getVelocityY(); 
-   setVelocity(speed*direction,vy);
+
+  void move() {
+    float vy=getVelocityY();
+    setVelocity(speed*direction, vy);
   }
 }

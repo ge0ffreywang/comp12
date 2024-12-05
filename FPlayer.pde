@@ -1,8 +1,8 @@
 class FPlayer extends FGameObject {
 
-  int frame;
+  
   int direction;
- 
+int frame;
   FPlayer () {
     super();
     frame=0;
@@ -18,19 +18,23 @@ class FPlayer extends FGameObject {
     animate();
   }
   void animate() {
-    
+
     if (frame>=action.length) frame=0;
     if (frameCount %5 == 0) {
-      if (direction==R){attachImage(action[frame]);}
-      if (direction==L){attachImage(reverseImage(action[frame]));}
+      if (direction==R) {
+        attachImage(action[frame]);
+      }
+      if (direction==L) {
+        attachImage(reverseImage(action[frame]));
+      }
       frame++;
     }
   }
   void input() {
     float vy= getVelocityY();
     float vx= getVelocityX();
-    if(abs(vy)<0.1){
-     action=idle; 
+    if (abs(vy)<0.1) {
+      action=idle;
     }
     if (akey) {
       action=run;
@@ -52,9 +56,9 @@ class FPlayer extends FGameObject {
       action=jump;
     }
   }
- 
+
   void collisions() {
-    
+
     if (touchingSpikes()) {
       setPosition(300, 0);
     }
