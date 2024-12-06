@@ -22,7 +22,7 @@ PImage[] jump;
 PImage[] run;
 PImage[] action;
 PImage[] goomba;
-
+PImage[] lava;
 float zoom=1.5;
 int gridSize=32;
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey, ekey;
@@ -72,6 +72,20 @@ void loadImages() {
   goomba[0].resize(gridSize, gridSize);
   goomba[1]=loadImage("images/goomba1.png");
   goomba[1].resize(gridSize, gridSize);
+  //fire
+  lava= new PImage[6];
+  lava[0]=loadImage("images/goomba0.png");
+  lava[0].resize(gridSize, gridSize);
+  lava[1]=loadImage("images/goomba1.png");
+  lava[1].resize(gridSize, gridSize);
+  lava[2]=loadImage("images/goomba2.png");
+  lava[2].resize(gridSize, gridSize);
+  lava[3]=loadImage("images/goomba3.png");
+  lava[3].resize(gridSize, gridSize);
+  lava[4]=loadImage("images/goomba4.png");
+  lava[4].resize(gridSize, gridSize);
+  lava[5]=loadImage("images/goomba5.png");
+  lava[5].resize(gridSize, gridSize);
 }
 void loadWorld(PImage img) {
   for (int y=0; y<img.height; y++) {
@@ -198,8 +212,8 @@ void actWorld() {
     t.act();
   }
 
-  for (int i=0; i< enemies.size(); i++) {
-    FGameObject e = enemies.get(i);
+  for (int j=0; j< enemies.size(); j++) {
+    FGameObject e = enemies.get(j);
     e.act();
   }
 }

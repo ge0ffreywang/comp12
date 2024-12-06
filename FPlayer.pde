@@ -16,6 +16,7 @@ int frame;
     input();
     collisions();
     animate();
+    println(enemies.size());
   }
   void animate() {
 
