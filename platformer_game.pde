@@ -74,17 +74,17 @@ void loadImages() {
   goomba[1].resize(gridSize, gridSize);
   //fire
   lava= new PImage[6];
-  lava[0]=loadImage("images/goomba0.png");
+  lava[0]=loadImage("images/lava0.png");
   lava[0].resize(gridSize, gridSize);
-  lava[1]=loadImage("images/goomba1.png");
+  lava[1]=loadImage("images/lava1.png");
   lava[1].resize(gridSize, gridSize);
-  lava[2]=loadImage("images/goomba2.png");
+  lava[2]=loadImage("images/lava2.png");
   lava[2].resize(gridSize, gridSize);
-  lava[3]=loadImage("images/goomba3.png");
+  lava[3]=loadImage("images/lava3.png");
   lava[3].resize(gridSize, gridSize);
-  lava[4]=loadImage("images/goomba4.png");
+  lava[4]=loadImage("images/lava4.png");
   lava[4].resize(gridSize, gridSize);
-  lava[5]=loadImage("images/goomba5.png");
+  lava[5]=loadImage("images/lava5.png");
   lava[5].resize(gridSize, gridSize);
 }
 void loadWorld(PImage img) {
@@ -186,7 +186,7 @@ void loadWorld(PImage img) {
         world.add(br);
       }
       if (c==cgoomba) {
-        FGoomba gmb= new FGoomba(x*gridSize, y*gridSize);
+        FGoomba gmb= new FGoomba(x*gridSize, y*gridSize, goomba);
         enemies.add(gmb);
         world.add(gmb);
       }
@@ -216,6 +216,7 @@ void actWorld() {
     FGameObject e = enemies.get(j);
     e.act();
   }
+  
 }
 void drawWorld() {
   pushMatrix();

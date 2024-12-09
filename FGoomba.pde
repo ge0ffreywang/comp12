@@ -3,14 +3,15 @@ class FGoomba extends FGameObject {
   int direction = L;
   int speed = 50;
   int frame=0;
+  PImage[] animation;
 
-  FGoomba(float x, float y) {
-    
+  FGoomba(float x, float y, PImage[] a) {
     super();
-    attachImage(goomba[0]);
+    attachImage(a[0]);
     setPosition(x, y);
     setName("goomba");
     setRotatable(false);
+    animation=a;
   }
 
   void act() {
@@ -20,10 +21,10 @@ class FGoomba extends FGameObject {
   }
 
   void animate() {
-    if (frame>=goomba.length) frame=0;
+    if (frame>=animation.length) frame=0;
     if (frameCount%5==0) {
-      if (direction==L)attachImage(goomba[frame]);
-      if (direction==R)attachImage(reverseImage(goomba[frame]));
+      if (direction==L)attachImage(animation[frame]);
+      if (direction==R)attachImage(reverseImage(animation[frame]));
       frame++;
     }
   }
@@ -33,10 +34,34 @@ class FGoomba extends FGameObject {
       direction*=-1;
       setPosition(getX()+direction, getY());
     }
+    if (isTouching("player")) {
+      if (player.getY()<getY()-gridSize/2) {
+        world.remove(this);
+        enemies.remove(this);
+        player.setVelocity(player.getVelocityX(),-300);
+      } else{
+      
+      player.setPosition(0, -300);
+      }
+    }
   }
-  
+
   void move() {
     float vy=getVelocityY();
     setVelocity(speed*direction, vy);
   }
+}
+
+class HammerBro extends FGoomba{
+  
+  int time=64;
+  HammerBro(float x, float y, PImage[] a){
+  super(x,y,a);
+  
+  }
+  void throwhammer(){
+    
+    
+  }
+  
 }
