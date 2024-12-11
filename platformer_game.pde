@@ -15,7 +15,8 @@ color green      =#7cf782;
 color yellow     =#e5f018;
 color cgoomba     =#dba423;
 color gwall      =#23d9d0;
-PImage map, ice, stone, treeTrunk, treeLeaves, lefttree, midtree, righttree, spike, tramp, bridge;
+color fire       =#3f09d6;
+PImage map, ice, stone, treeTrunk, treeLeaves, lefttree, midtree, righttree, spike, tramp, bridge,hammer;
 
 PImage[] idle;
 PImage[] jump;
@@ -53,7 +54,8 @@ void loadImages() {
   righttree=loadImage("images/treetop_e.png");
   tramp=loadImage("images/trampoline.png");
   bridge=loadImage("images/bridge_center.png");
-
+  hammer=loadImage("images/hammer.png");
+  
   idle = new PImage [2];
   idle[0] = loadImage ("images/idle0.png") ;
   idle[1] = loadImage ("images/idle1.png") ;
@@ -184,6 +186,11 @@ void loadWorld(PImage img) {
         FBridge br = new FBridge(x*gridSize, y*gridSize);
         terrain.add(br);
         world.add(br);
+      }
+      if (c==fire) {
+        lava a = new lava(x*gridSize, y*gridSize);
+        terrain.add(a);
+        world.add(a);
       }
       if (c==cgoomba) {
         FGoomba gmb= new FGoomba(x*gridSize, y*gridSize, goomba);

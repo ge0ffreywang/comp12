@@ -53,15 +53,20 @@ class FGoomba extends FGameObject {
 }
 
 class HammerBro extends FGoomba{
-  
-  int time=64;
+  float bx,by;
+  float time=64;
   HammerBro(float x, float y, PImage[] a){
   super(x,y,a);
-  
+  bx=x;
+  by=y;
   }
-  void throwhammer(){
-    
-    
+  void act(){
+    time=time-1;
+    if (time==0){
+     time=64;
+     FBox b =new FBox(gridSize/2,gridSize/2);
+     b.setPosition(getX(),getY());
+    }
   }
   
 }
