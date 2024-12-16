@@ -9,7 +9,7 @@ class FGameObject extends FBox{
 
   void act() {
   }
-
+  void hammer(){}
   boolean isTouching(String n) {
     ArrayList<FContact> contacts=getContacts();
     for (int i=0; i< contacts.size(); i++) {

@@ -19,12 +19,12 @@ class FGoomba extends FGameObject {
     collide();
     move();
   }
-
+  void hammer(){}
   void animate() {
     if (frame>=animation.length) frame=0;
     if (frameCount%5==0) {
-      if (direction==L)attachImage(animation[frame]);
-      if (direction==R)attachImage(reverseImage(animation[frame]));
+      if (direction==R)attachImage(animation[frame]);
+      if (direction==L)attachImage(reverseImage(animation[frame]));
       frame++;
     }
   }
@@ -55,17 +55,29 @@ class FGoomba extends FGameObject {
 class HammerBro extends FGoomba{
   float bx,by;
   float time=64;
-  HammerBro(float x, float y, PImage[] a){
+  float vy=10;
+  HammerBro(float x, float y, PImage[]a){
   super(x,y,a);
   bx=x;
   by=y;
   }
-  void act(){
+  void hammer(){
     time=time-1;
+    vy=vy*0.99;
     if (time==0){
-     time=64;
+     time=128;
      FBox b =new FBox(gridSize/2,gridSize/2);
+     vy=-500;  
+     b.attachImage(reverseImage(hammer));
+      b.setName("ahammer");
      b.setPosition(getX(),getY());
+     b.setVelocity(getX()*direction/8,vy);
+     b.setAngularVelocity(10);
+     b.setSensor(true);
+     world.add(b);
+     if (player.isTouching("ahammer")) {
+      player.setPosition(0, -300);
+      }
     }
   }
   

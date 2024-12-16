@@ -16,6 +16,8 @@ color yellow     =#e5f018;
 color cgoomba     =#dba423;
 color gwall      =#23d9d0;
 color fire       =#3f09d6;
+color hammerBro  =#4c9915; 
+color cthwomp    =#ffe8a3;
 PImage map, ice, stone, treeTrunk, treeLeaves, lefttree, midtree, righttree, spike, tramp, bridge,hammer;
 
 PImage[] idle;
@@ -24,6 +26,8 @@ PImage[] run;
 PImage[] action;
 PImage[] goomba;
 PImage[] lava;
+PImage[] hammerbropic;
+PImage[] thwomp;
 float zoom=1.5;
 int gridSize=32;
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey, ekey;
@@ -65,7 +69,7 @@ void loadImages() {
   run [0] = loadImage ("images/runright0.png") ;
   run [1] = loadImage ("images/runright1.png");
   run [2] = loadImage("images/runright2.png") ;
-
+  
   action=idle;
 
   //ememies-----
@@ -74,6 +78,11 @@ void loadImages() {
   goomba[0].resize(gridSize, gridSize);
   goomba[1]=loadImage("images/goomba1.png");
   goomba[1].resize(gridSize, gridSize);
+  hammerbropic= new PImage[2];
+  hammerbropic[0]=loadImage("images/hammerbro0.png");
+  hammerbropic[0].resize(gridSize, gridSize);
+  hammerbropic[1]=loadImage("images/hammerbro1.png");
+  hammerbropic[1].resize(gridSize, gridSize);
   //fire
   lava= new PImage[6];
   lava[0]=loadImage("images/lava0.png");
@@ -88,6 +97,12 @@ void loadImages() {
   lava[4].resize(gridSize, gridSize);
   lava[5]=loadImage("images/lava5.png");
   lava[5].resize(gridSize, gridSize);
+  
+  thwomp= new PImage[2];
+  thwomp[0]=loadImage("images/thwomp0.png");
+  thwomp[0].resize(gridSize*2, gridSize*2);
+  thwomp[1]=loadImage("images/thwomp1.png");
+  thwomp[1].resize(gridSize*2, gridSize*2);
 }
 void loadWorld(PImage img) {
   for (int y=0; y<img.height; y++) {
@@ -197,6 +212,17 @@ void loadWorld(PImage img) {
         enemies.add(gmb);
         world.add(gmb);
       }
+      
+      if (c==hammerBro) {
+        HammerBro gmb= new HammerBro(x*gridSize, y*gridSize, hammerbropic);
+        enemies.add(gmb);
+        world.add(gmb);
+      } 
+      if (c==cthwomp) {
+        FThwomp gmb= new FThwomp(x*gridSize, y*gridSize);
+        enemies.add(gmb);
+        world.add(gmb);
+      }
     }
   }
 }
@@ -222,6 +248,7 @@ void actWorld() {
   for (int j=0; j< enemies.size(); j++) {
     FGameObject e = enemies.get(j);
     e.act();
+    e.hammer();
   }
   
 }

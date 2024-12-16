@@ -1,8 +1,8 @@
 class FPlayer extends FGameObject {
 
-  
+
   int direction;
-int frame;
+  int frame;
   FPlayer () {
     super();
     frame=0;
