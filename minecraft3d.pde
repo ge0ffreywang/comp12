@@ -2,7 +2,9 @@ PImage diamond;
 float rotx, roty;
 void setup() {
   size(800, 800, P3D);
-  diamond=loadImage("diamond.png");
+  diamond=loadImage("Diamond.png");
+  
+  textureMode(NORMAL);
 }
 void draw(){
 background(0);
@@ -16,18 +18,44 @@ rotateY(roty);
 noStroke();
 
 beginShape(QUADS);
-texture(diamond);
+texture(diamond); 
 
 //top
-vertex();
-vertex();
-vertex();
-vertex();
+//x,y,z,tx,ty
+vertex(0,0,0 ,0,0);
+vertex(1,0,0,1,0);
+vertex(1,0,1,1,1);
+vertex(0,0,1,0,1 );
+
 //bottom
+vertex(0,1,0 ,0,0);
+vertex(1,1,0,1,0);
+vertex(1,1,1,1,1);
+vertex(0,1,1,0,1 );
 
 //front
+vertex(0,0,1 ,0,0);
+vertex(1,0,1,1,0);
+vertex(1,1,1,1,1);
+vertex(0,1,1,0,1 );
 
 //back
+vertex(0,0,0 ,0,0);
+vertex(1,0,0,1,0);
+vertex(1,1,0,1,1);
+vertex(0,1,0,0,1 );
+
+//left
+vertex(0,0,0 ,0,0);
+vertex(0,0,1,1,0);
+vertex(0,1,1,1,1);
+vertex(0,1,0,0,1 );
+
+//right
+vertex(1,0,0 ,0,0);
+vertex(1,0,1,1,0);
+vertex(1,1,1,1,1);
+vertex(1,1,0,0,1 );
 endShape();
 
 popMatrix();
