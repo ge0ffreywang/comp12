@@ -2,101 +2,147 @@ void v_setup(){
   
   
 }
-void leftkickman(){
-  fill(255,0,0);
-  stroke(255,0,0);
-  circle(Redx,Redy,80);
-  fill(255);
-  stroke(255,0,0);
-  //left leg
-  
-  rect(Redx+redlegup-40,Redy-60,40,20);
-  //right leg
-  rect(Redx+redlegdown,Redy+40,40,20);
-  //move player
-  if (wkey==true)Redy=Redy-5;
-  if (skey==true)Redy=Redy+5;
-  if (akey==true)Redx=Redx-5;
-  if (dkey==true)Redx=Redx+5;
-  //move plyer legs
-  //left leg
-   translate(0,0);
-   if(wkey==true || skey==true || akey==true || dkey==true){
- //left leg
-   redlegup=redlegup+redleftlegvelocity;
-    if(redlegup==40){
-    redleftlegvelocity=redleftlegvelocity*-1;
-    } else if(redlegup==0){
-    redleftlegvelocity=redleftlegvelocity*-1;
-    }
-    
-    //right leg
-     translate(0,0);
-   redlegdown=redlegdown+redrightlegvelocity;
-    if(redlegdown==0){
-    redrightlegvelocity=redrightlegvelocity*-1;
-    } else if(redlegdown==-40){
-    redrightlegvelocity=redrightlegvelocity*-1;
-    }
- }
-}
+void redkickman() {
+  strokeWeight(1);
+  fill(255, 0, 0);
+  stroke(255, 0, 0);
+  circle(redkickmanX, redkickmanY, 80); // Body
 
-void rightkickman(){
-  fill(0,0,255);
-   stroke(0,0,255);
-  circle(bluex,bluey,80);
-  //left leg
+  // Left leg
   fill(255);
-  stroke(0,0,255);
-  rect(bluex+bluelegup-40,bluey-60,40,20);
-  //right leg
-  rect(bluex+bluelegdown,bluey+40,40,20);
-  //move player
-  if (upkey==true)bluey=bluey-5;
-  if (downkey==true)bluey=bluey+5;
-  if (leftkey==true)bluex=bluex-5;
-  if (rightkey==true)bluex=bluex+5;
-  //move plyer legs
-  //left leg
-   translate(0,0);
-   if(upkey==true || downkey==true || leftkey==true || rightkey==true){
- //left leg
-   bluelegup=bluelegup+blueleftlegvelocity;
-    if(bluelegup==40){
-    blueleftlegvelocity=blueleftlegvelocity*-1;
-    } else if(bluelegup==0){
-    blueleftlegvelocity=blueleftlegvelocity*-1;
-    }
-    
-    //right leg
-     translate(0,0);
-   bluelegdown=bluelegdown+bluerightlegvelocity;
-    if(bluelegdown==0){
-    bluerightlegvelocity=bluerightlegvelocity*-1;
-    } else if(bluelegdown==-40){
-    bluerightlegvelocity=bluerightlegvelocity*-1;
-    }
- }
-}
+  stroke(255, 0, 0);
+  rect(redkickmanX + leftredLeg - 40, redkickmanY - 60, 40, 20);
 
-void p1legs(){
- translate(0,0);
- translate(0,0);
- //left leg
- redlegup=redlegup+redleftlegvelocity;
-  if(redlegup==40){
-  redleftlegvelocity=redleftlegvelocity*-1;
-  } else if(redlegup==0){
-  redleftlegvelocity=redleftlegvelocity*-1;
-  }
- //left leg
- redlegup=redlegup+redleftlegvelocity;
-  if(redlegup==40){
-  redleftlegvelocity=redleftlegvelocity*-1;
-  } else if(redlegup==0){
-  redleftlegvelocity=redleftlegvelocity*-1;
+  // Right leg
+  rect(redkickmanX + rightredleg, redkickmanY + 40, 40, 20);
+
+  // Move player
+  if (wkey) redkickmanY -= 5;
+  if (skey) redkickmanY += 5;
+  if (akey) redkickmanX -= 5;
+  if (dkey) redkickmanX += 5;
+
+  // Move legs
+  if (wkey || skey || akey || dkey) {
+    // Left leg
+    leftredLeg += RedkickmanLeftlegvelocity;
+    if (leftredLeg >= 40 || leftredLeg <= 0) {
+      RedkickmanLeftlegvelocity *= -1;
+    }
+
+    // Right leg
+    rightredleg += RedkickmanRightlegvelocity;
+    if (rightredleg <= -40 || rightredleg >= 0) {
+      RedkickmanRightlegvelocity *= -1;
+    }
   }
 }
+
+void redgoaly() {
+  fill(255, 0, 0);
+  stroke(255, 0, 0);
+  circle(redgoalyX, redgoalyY, 80); // Body
+
+  // Left leg
+  fill(255);
+  stroke(255, 0, 0);
+  rect(redgoalyX + redgoalyLeftleg - 40, redgoalyY - 60, 40, 20);
+
+  // Right leg
+  rect(redgoalyX + redgoalyRightleg, redgoalyY + 40, 40, 20);
+
+  // Move player
+  if (wkey) redgoalyY -= 5;
+  if (skey) redgoalyY += 5;
+  if (akey) redgoalyX -= 5;
+  if (dkey) redgoalyX += 5;
+
+  // Move legs
+  if (wkey || skey || akey || dkey) {
+    // Left leg
+    redgoalyLeftleg += RedgoalyLeftlegVelocity;
+    if (redgoalyLeftleg >= 40 || redgoalyLeftleg <= 0) {
+      RedgoalyLeftlegVelocity *= -1;
+    }
+
+    // Right leg
+    redgoalyRightleg += RedgoalyRightlegVelocity;
+    if (redgoalyRightleg <= -40 || redgoalyRightleg >= 0) {
+      RedgoalyRightlegVelocity *= -1;
+    }
+  }
+}
+
+void bluekickman() {
+  fill(0, 0, 255);
+  stroke(0, 0, 255);
+  circle(bluekickmanX, bluekickmanY, 80); // Body
+
+  // Left leg
+  fill(255);
+  stroke(0, 0, 255);
+  rect(bluekickmanX + bluekickmanLeftLeg - 40, bluekickmanY - 60, 40, 20);
+
+  // Right leg
+  rect(bluekickmanX + bluekickmanRightLeg, bluekickmanY + 40, 40, 20);
+
+  // Move player
+  if (upkey) bluekickmanY -= 5;
+  if (downkey) bluekickmanY += 5;
+  if (leftkey) bluekickmanX -= 5;
+  if (rightkey) bluekickmanX += 5;
+
+  // Move legs
+  if (upkey || downkey || leftkey || rightkey) {
+    // Left leg
+    bluekickmanLeftLeg += bluekickmanLeftlegVelocity;
+    if (bluekickmanLeftLeg >= 40 || bluekickmanLeftLeg <= 0) {
+      bluekickmanLeftlegVelocity *= -1;
+    }
+
+    // Right leg
+    bluekickmanRightLeg += bluekickmanRightlegVelocity;
+    if (bluekickmanRightLeg <= -40 || bluekickmanRightLeg >= 0) {
+      bluekickmanRightlegVelocity *= -1;
+    }
+  }
+}
+
+void bluegoaly() {
+  fill(0, 0, 255);
+  stroke(0, 0, 255);
+  circle(bluegoalyX, bluegoalyY, 80); // Body
+
+  // Left leg
+  fill(255);
+  stroke(0, 0, 255);
+  rect(bluegoalyX + bluegoalyLeftLeg - 40, bluegoalyY - 60, 40, 20);
+
+  // Right leg
+  rect(bluegoalyX + bluegoalyRightLeg, bluegoalyY + 40, 40, 20);
+
+  // Move player
+  if (upkey) bluegoalyY -= 5;
+  if (downkey) bluegoalyY += 5;
+  if (leftkey) bluegoalyX -= 5;
+  if (rightkey) bluegoalyX += 5;
+
+  // Move legs
+  if (upkey || downkey || leftkey || rightkey) {
+    // Left leg
+    bluegoalyLeftLeg += bluegoalyLeftlegVelocity;
+    if (bluegoalyLeftLeg >= 40 || bluegoalyLeftLeg <= 0) {
+      bluegoalyLeftlegVelocity *= -1;
+    }
+
+    // Right leg
+    bluegoalyRightLeg += bluegoalyRightlegVelocity;
+    if (bluegoalyRightLeg <= -40 || bluegoalyRightLeg >= 0) {
+      bluegoalyRightlegVelocity *= -1;
+    }
+  }
+}
+
 
 void keyPressed(){
   if (key=='w' || key=='W') wkey=true;
@@ -124,4 +170,14 @@ void keyReleased(){
 void v_setupClicks(){
   
   
+}
+
+void tactileR(int x,int y,int w,int h){
+  if(mouseX>x && mouseX<x+w && mouseY > y && mouseY < y+h){
+    strokeWeight(7);
+   stroke(255); 
+  }else{
+    strokeWeight(2);
+   stroke(255); 
+  }
 }

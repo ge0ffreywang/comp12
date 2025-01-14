@@ -5,10 +5,14 @@ void mouseReleased(){
     gameClicks();
   }else if(mode==PAUSE){
     pauseClicks();
-  }else if(mode==GAMEOVER){
-    gameoverClicks();
+  }else if(mode==REDWIN){
+    redwinClicks();
   }else if(mode==V_SETUP){
     v_setupClicks();
+  }else if(mode==REDWIN){
+    redwinClicks();
+  }else if(mode==BLUEWIN){
+    bluewinClicks();
   }else {
    println("mode error:" +mode);
   }

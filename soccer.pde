@@ -3,27 +3,28 @@ int mode;
 final int INTRO   =1;
 final int GAME    =2;
 final int PAUSE   =3;
-final int GAMEOVER=4;
+final int REDWIN=4;
 final int V_SETUP =5;
+final int BLUEWIN =6;
 //player setup
 //red
-float Redx,Redy;
+float redkickmanX,redkickmanY,redgoalyX,redgoalyY;
 
 //blue
-float bluex,bluey;
+float bluekickmanX,bluekickmanY,bluegoalyX,bluegoalyY;
 //score
 float redscore,bluescore;
 //legs
 //red
-float redlegup,redlegdown;
+float leftredLeg,rightredleg,redgoalyLeftleg,redgoalyRightleg;
 //blue
-float bluelegup,bluelegdown;
+float bluekickmanLeftLeg,bluekickmanRightLeg,bluegoalyLeftLeg,bluegoalyRightLeg;
 //variable to move the legs
 
 //red
-float redleftlegvelocity,redrightlegvelocity;
+float RedkickmanLeftlegvelocity,RedkickmanRightlegvelocity,RedgoalyLeftlegVelocity,RedgoalyRightlegVelocity;
 //blue
-float blueleftlegvelocity,bluerightlegvelocity;
+float bluekickmanLeftlegVelocity,bluekickmanRightlegVelocity,bluegoalyLeftlegVelocity,bluegoalyRightlegVelocity;
 //player movements
 boolean wkey,skey,akey,dkey,upkey,downkey,leftkey,rightkey;
 
@@ -33,26 +34,38 @@ float ballx,bally,balld;//ball
 float vx, vy;//target velosity
 void setup(){
   size(800,600);
-  mode=GAME;
+  mode=INTRO;
   
   //initialize keyboard variable(player movements)
   wkey=skey=akey=dkey=upkey=downkey=leftkey=rightkey=false;
   //score setup
   redscore=0;
   bluescore=0;
-  //initialize left player legs;
-  redlegup=0;
-  redlegdown=0;
-  Redx=300; Redy=300;
-  redleftlegvelocity=1;
-  redrightlegvelocity=-1;
+  //initialize red player 1legs;
+  leftredLeg=0;
+  rightredleg=0;
+  redkickmanX=300; redkickmanY=300;
+  RedkickmanLeftlegvelocity=1;
+  RedkickmanRightlegvelocity=-1;
+  //initialize red player 2legs;
+  redgoalyLeftleg=0;
+  redgoalyRightleg=0;
+  redgoalyX=100; redgoalyY=300;
+  RedgoalyLeftlegVelocity=1;
+  RedgoalyRightlegVelocity=-1;
   
-  //initialize right player legs;
-  bluelegup=0;
-  bluelegdown=0;
-  bluex=500; bluey=300;
-  blueleftlegvelocity=1;
-  bluerightlegvelocity=-1;
+  //initialize right player1 legs;
+  bluekickmanLeftLeg=0;
+  bluekickmanRightLeg=0;
+  bluekickmanX=500; bluekickmanY=300;
+  bluekickmanLeftlegVelocity=1;
+  bluekickmanRightlegVelocity=-1;
+  //initialize right player2 legs;
+  bluegoalyLeftLeg=0;
+  bluegoalyRightLeg=0;
+  bluegoalyX=700; bluegoalyY=300;
+  bluegoalyLeftlegVelocity=1;
+  bluegoalyRightlegVelocity=-1;
   //initialize ball
   ballx=400;
   bally=400;
@@ -69,10 +82,14 @@ void draw(){
     game();
   }else if(mode==PAUSE){
     pause();
-  }else if(mode==GAMEOVER){
-    gameover();
+  }else if(mode==REDWIN){
+    redwin();
   }else if(mode==V_SETUP){
     v_setup();
+  }else if(mode==REDWIN){
+    redwin();
+  }else if(mode==BLUEWIN){
+    bluewin();
   }else {
    println("mode error:" +mode);
   }
