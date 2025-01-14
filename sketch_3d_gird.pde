@@ -15,7 +15,8 @@ void setup() {
   upX=0;
   upY=1;
   upZ=0;
-  leftRightHeadAngle=radians(45);
+  leftRightHeadAngle=radians(270);
+  //  noCursor();
 }
 void draw() {
   background(0);
@@ -46,9 +47,34 @@ void controlCamera() {
 
   leftRightHeadAngle=leftRightHeadAngle+(mouseX-pmouseX)*0.01;
   upDownHeadAngle=upDownHeadAngle+(mouseY-pmouseY)*0.01;
+  if(upDownHeadAngle>PI/2.5) upDownHeadAngle=PI/2.5;
+  if(upDownHeadAngle>-PI/2.5) upDownHeadAngle=-PI/2.5;
+  
   focusX=eyeX+cos (leftRightHeadAngle)*300;
-  focusY=eyeY;
   focusZ=eyeZ+sin(leftRightHeadAngle)*300;
-
+  focusY=eyeY+tan(upDownHeadAngle)*300 ;
   println(eyeX, eyeY, eyeZ);
+}
+
+void keyPressed() {
+  if (key == 'w' || key == 'W') wkey=true;
+  if (key == 'a' || key == 'A') akey=true;
+  if (key == 's' || key == 'S') skey=true;
+  if (key == 'd' || key == 'D') dkey=true;
+ 
+  if (keyCode == UP)wkey=true;
+  if (keyCode == DOWN)skey=true;
+  if (keyCode == LEFT)akey=true;
+  if (keyCode == RIGHT)dkey=true;
+}
+
+void keyReleased() {
+  if (key == 'w' || key == 'W') wkey=false;
+  if (key == 'a' || key == 'A') akey=false;
+  if (key == 's' || key == 'S') skey=false;
+  if (key == 'd' || key == 'D') dkey=false;
+ if (keyCode == UP)wkey=false;
+  if (keyCode == DOWN)skey=false;
+  if (keyCode == LEFT)akey=false;
+  if (keyCode == RIGHT)dkey=false;
 }
