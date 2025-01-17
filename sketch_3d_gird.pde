@@ -1,8 +1,12 @@
+import java.awt.Robot;
+
+Robot rbt;
 boolean wkey, akey, skey, dkey;
 float eyeX, eyeY, eyeZ, focusX, focusY, focusZ, upX, upY, upZ;
 float leftRightHeadAngle, upDownHeadAngle;
 
 void setup() {
+  //fullScreen(P3D);
   size(800, 600, P3D);
   textureMode(NORMAL);
   wkey=akey=skey=dkey=false;
@@ -16,7 +20,13 @@ void setup() {
   upY=1;
   upZ=0;
   leftRightHeadAngle=radians(270);
-  //  noCursor();
+  //noCursor();
+  try {
+    rbt=new Robot();
+  }
+  catch(Exception e) {
+    e.printStackTrace();
+  }
 }
 void draw() {
   background(0);
@@ -25,9 +35,9 @@ void draw() {
   drawFocalPoint();
   controlCamera();
 }
-void drawFocalPoint(){
+void drawFocalPoint() {
   pushMatrix();
-  translate(focusX,focusY,focusZ);
+  translate(focusX, focusY, focusZ);
   sphere(5);
   popMatrix();
 }
@@ -40,16 +50,27 @@ void drawFloor() {
 }
 
 void controlCamera() {
-  if (wkey) eyeZ=eyeZ-10;
-  if (skey) eyeZ=eyeZ+10;
-  if (akey) eyeX=eyeX-10;
-  if (dkey) eyeX=eyeX+10;
-
+  if (wkey) {
+    eyeX=eyeX+cos(leftRightHeadAngle)*10;
+    eyeZ=eyeZ+sin(leftRightHeadAngle)*10;
+  }
+  if (skey) {
+    eyeX=eyeX-cos(leftRightHeadAngle)*10;
+    eyeZ=eyeZ-sin(leftRightHeadAngle)*10;
+  }
+  if (akey) {
+    eyeX=eyeX-cos(leftRightHeadAngle+radians(90))*10;
+    eyeZ=eyeZ-sin(leftRightHeadAngle+ radians(90))*10;
+  }
+  if (dkey) {
+    eyeX=eyeX-cos(leftRightHeadAngle-radians(90))*10;
+    eyeZ=eyeZ-sin(leftRightHeadAngle-radians(90))*10;
+  }
   leftRightHeadAngle=leftRightHeadAngle+(mouseX-pmouseX)*0.01;
   upDownHeadAngle=upDownHeadAngle+(mouseY-pmouseY)*0.01;
-  if(upDownHeadAngle>PI/2.5) upDownHeadAngle=PI/2.5;
-  if(upDownHeadAngle>-PI/2.5) upDownHeadAngle=-PI/2.5;
-  
+  if (upDownHeadAngle>PI/2.5) upDownHeadAngle=PI/2.5;
+  if (upDownHeadAngle>-PI/2.5) upDownHeadAngle=-PI/2.5;
+
   focusX=eyeX+cos (leftRightHeadAngle)*300;
   focusZ=eyeZ+sin(leftRightHeadAngle)*300;
   focusY=eyeY+tan(upDownHeadAngle)*300 ;
@@ -61,7 +82,7 @@ void keyPressed() {
   if (key == 'a' || key == 'A') akey=true;
   if (key == 's' || key == 'S') skey=true;
   if (key == 'd' || key == 'D') dkey=true;
- 
+
   if (keyCode == UP)wkey=true;
   if (keyCode == DOWN)skey=true;
   if (keyCode == LEFT)akey=true;
@@ -73,7 +94,7 @@ void keyReleased() {
   if (key == 'a' || key == 'A') akey=false;
   if (key == 's' || key == 'S') skey=false;
   if (key == 'd' || key == 'D') dkey=false;
- if (keyCode == UP)wkey=false;
+  if (keyCode == UP)wkey=false;
   if (keyCode == DOWN)skey=false;
   if (keyCode == LEFT)akey=false;
   if (keyCode == RIGHT)dkey=false;
