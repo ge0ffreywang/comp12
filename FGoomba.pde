@@ -19,7 +19,8 @@ class FGoomba extends FGameObject {
     collide();
     move();
   }
-  void hammer(){}
+  void hammer() {
+  }
   void animate() {
     if (frame>=animation.length) frame=0;
     if (frameCount%5==0) {
@@ -34,14 +35,26 @@ class FGoomba extends FGameObject {
       direction*=-1;
       setPosition(getX()+direction, getY());
     }
+
+
+
+
+
     if (isTouching("player")) {
-      if (player.getY()<getY()-gridSize/2) {
+      if (!starOn) {
+        if (player.getY()<getY()-gridSize/2) {
+          world.remove(this);
+          enemies.remove(this);
+          player.setVelocity(player.getVelocityX(), -300);
+        } else {
+          lives--;
+          player.setPosition(respawnx, respawny);
+        }
+      } else if (starOn) {
+
         world.remove(this);
         enemies.remove(this);
-        player.setVelocity(player.getVelocityX(),-300);
-      } else{
-      
-      player.setPosition(0, -300);
+        player.setVelocity(player.getVelocityX(), -300);
       }
     }
   }
@@ -52,33 +65,41 @@ class FGoomba extends FGameObject {
   }
 }
 
-class HammerBro extends FGoomba{
-  float bx,by;
+class HammerBro extends FGoomba {
+  float bx, by;
   float time=64;
   float vy=10;
-  HammerBro(float x, float y, PImage[]a){
-  super(x,y,a);
-  bx=x;
-  by=y;
+  HammerBro(float x, float y, PImage[]a) {
+    super(x, y, a);
+    bx=x;
+    by=y;
   }
-  void hammer(){
+  void hammer() {
     time=time-1;
     vy=vy*0.99;
-    if (time==0){
-     time=128;
-     FBox b =new FBox(gridSize/2,gridSize/2);
-     vy=-500;  
-     b.attachImage(reverseImage(hammer));
+    if (time==0) {
+      time=128;
+      FBox b =new FBox(gridSize/2, gridSize/2);
+      vy=-500;
+      b.attachImage(reverseImage(hammer));
       b.setName("ahammer");
-     b.setPosition(getX(),getY());
-     b.setVelocity(getX()*direction/8,vy);
-     b.setAngularVelocity(10);
-     b.setSensor(true);
-     world.add(b);
-     if (player.isTouching("ahammer")) {
-      player.setPosition(0, -300);
+      b.setPosition(getX(), getY());
+      if (direction == R) b.setVelocity(200, -800);
+
+      if (direction == L) b.setVelocity(-200, -800);
+
+      b.setAngularVelocity(25);
+      b.setSensor(true);
+      world.add(b);
+
+      if (sensorTouching(player, "ahammer")) {
+        println("Player touched ahammer!");
+
+        if (!starOn) {
+          player.setPosition(respawnx, respawny);
+          lives=lives--;
+        }
       }
     }
   }
-  
 }

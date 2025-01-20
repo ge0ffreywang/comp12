@@ -6,10 +6,10 @@ void keyPressed() {
   if (key == 'q' || key == 'Q') qkey=true;
   if (key == 'e' || key == 'E') ekey=true;
   if (key==' ')spacekey=true;
-  if (keyCode == UP)upkey=true;
-  if (keyCode == DOWN)downkey=true;
-  if (keyCode == LEFT)leftkey=true;
-  if (keyCode == RIGHT)rightkey=true;
+  if (keyCode == UP)wkey=true;
+  if (keyCode == DOWN)skey=true;
+  if (keyCode == LEFT)akey=true;
+  if (keyCode == RIGHT)dkey=true;
 }
 
 void keyReleased() {
@@ -20,8 +20,8 @@ void keyReleased() {
   if (key == 'q' || key == 'Q') qkey=false;
   if (key == 'e' || key == 'E') ekey=false;
   if (key==' ')spacekey=false;
-  if (keyCode == UP)upkey=false;
-  if (keyCode == DOWN)downkey=false;
-  if (keyCode == LEFT)leftkey=false;
-  if (keyCode == RIGHT)rightkey=false;
+  if (keyCode == UP)wkey=false;
+  if (keyCode == DOWN)skey=false;
+  if (keyCode == LEFT)akey=false;
+  if (keyCode == RIGHT)dkey=false;
 }

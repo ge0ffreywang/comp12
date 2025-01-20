@@ -1,63 +1,44 @@
-class Button{
-  
- //instance variables 
-  int x,y,w,h; 
-  boolean clicked;
-  color highlight, normal;
-  String text;
-  
-  //constructor
-  Button(String t, int _x, int _y, int _w, int _h, color norm,color high){
-    x=_x;
-    y=_y;
-    w=_w;
-    h=_h; 
-    text = t;
-    
-    highlight=high;
-    normal=norm;
-    clicked= false;
-    
+class Button {
+
+  // PROPERTIES OF BUTTON...
+  PVector location;
+  PVector dimension;
+
+  // IMAGE OF THE BUTTON...
+  PImage textImg;
+
+  Button(PVector location, String txtLoc) {
+    // Constructor that sets up the data...
+
+    this.location = location;
+
+    textImg = loadImage(txtLoc);
+  }
+
+
+  void display() {
+    // Displays the button
+
+    imageMode(CENTER);
+    if (isHovering()) {
+      image(textImg, location.x-3, location.y-3);
+    } else {
+      image(textImg, location.x, location.y);
+    }
+  }
+
+
+  boolean isHovering() {
+    // Checks if the button is hovering and hence creating collision with the mouse...
+
+    return ((mouseX >= location.x-textImg.width/2 && mouseX <= location.x+textImg.width/2) &&
+      (mouseY >= location.y-textImg.height/2 && mouseY <= location.y+textImg.height/2));
+  }
+
+  boolean buttonPressed() {
+    // if the mouse is hovering the return true...
+
+    return isHovering();
   }
   
-  //behavior functions
-  //boolean touchingMouse(){
-  
-    
-  //}
-  void show(){
-  //recttangle
-  rectMode(CENTER);
-  if(mouseX>x-w/2 && mouseX < x+w/2 && mouseY > y-h/2 && mouseY < y+h/2){
-    fill(highlight);
-  }else{
-   fill(normal); 
-  }
-  stroke(0);
-  strokeWeight(4);
-  rect(x,y,w,h,30);
-  
-  //text label
-  textAlign(CENTER,CENTER);
-  if(mouseX>x-w/2 && mouseX < x+w/2 && mouseY > y-h/2 && mouseY < y+h/2){
-    fill(normal);
-   }else{
-    fill(highlight); 
-   }
-   textSize(w/4);
-   text(text,x,y);
-   
-   if(mouseReleased && mouseX>x-w/2 && mouseX<x+w/2 && mouseY > y-h/2 && mouseY < y+h/2){
-    clicked=true;
- 
-   }else {
-    clicked=false; 
-   }
-  } 
-  
-  void clicked() {
-    if (clicked == true) {
-      background (normal);
-    } 
-  }
 }

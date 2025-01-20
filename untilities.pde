@@ -12,3 +12,17 @@ PImage reverseImage( PImage image ) {
   }
   return reverse;
 }
+
+void mouseRelease() {
+  if (mode == INTRO) {
+    introClicks();
+  } else if (mode == M1) {
+    m1Clicks();
+  } else if (mode == M2) {
+    m2Clicks();
+  } else if (mode == M3) {
+    m3Clicks();
+  } else if (mode == GAMEOVER) {
+    gameoverClicks();
+  }
+}
