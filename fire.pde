@@ -10,7 +10,7 @@ class lava extends FGameObject {
   }
 
   void act() {
-    if (isTouching("player") && starOn==false) {
+    if (isTouching("player") && immune==false) {
       player.setPosition(respawnx, respawny);
       lives--;
     }

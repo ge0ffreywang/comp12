@@ -1,6 +1,6 @@
 class Respawn extends FGameObject {
 
-
+  int timer=101;
   Respawn(float x, float y) {
     super();
     setPosition (x, y);
@@ -19,10 +19,18 @@ class Respawn extends FGameObject {
 
 
   void collide() {
+    
     if (isTouching("player")) {
+      timer--;
+      if (timer==100) {
+        sound.coin.rewind();
+        sound.coin.play();
+      }
       respawnx = getX();
-      respawny = getY()-100;
+      respawny = getY()-101;
       attachImage(respawn[1]);
+    } else {
+      timer=100;
     }
   }
 }

@@ -12,8 +12,8 @@ class Fflag extends FGameObject {
   void act () {
     if (n==3)n=0;
     if (isTouching("player")) {
-      respawnx =0;
-      respawny =-100;
+      respawnx =100;
+      respawny =0;
 
       if (mode == M1) {
         world.clear();
@@ -21,11 +21,11 @@ class Fflag extends FGameObject {
         loadPlayer();
         mode = M2;
       respawnx = 100;
-      respawny = -100;
+      respawny = 0;
       } else if (mode == M2) {
         // YouWin
         world.clear();
-        mode = M3;
+        mode = WIN;
         loadPlayer();
       }
     }

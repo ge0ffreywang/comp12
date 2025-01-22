@@ -6,13 +6,13 @@ class SoundTrack {
   // BUNCH OF SOUNDS OF THE GAMES...
   AudioPlayer homeAudio, levelAudio, gameOverAudio, youWinAudio;
   AudioPlayer marioJumpAudio, marioKickAudio, marioDeadAudio;
-  AudioPlayer coinCollectAudio;
+  AudioPlayer coin, slime;
   AudioPlayer courseClearAudio;
 
   SoundTrack(PApplet theApplet) {
 
     minim = new Minim(theApplet);
-
+    slime=minim.loadFile("sounds/slimeSound.mp3");
     homeAudio = minim.loadFile("sounds/home.wav");
     levelAudio = minim.loadFile("sounds/levelBackgroundMusic.wav");
     gameOverAudio = minim.loadFile("sounds/gameOver.wav");
@@ -22,6 +22,6 @@ class SoundTrack {
     marioKickAudio = minim.loadFile("sounds/marioKick.wav");
     marioDeadAudio = minim.loadFile("sounds/marioDies.wav");
     courseClearAudio = minim.loadFile("sounds/courseClear.wav");
-    coinCollectAudio = minim.loadFile("sounds/CoinCollection.wav");
+    coin = minim.loadFile("sounds/CoinCollection.wav");
   }
 }

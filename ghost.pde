@@ -9,7 +9,7 @@ class ghost extends FGameObject {
     super();
     attachImage(ghost);
     setPosition(x, y);
-    setName("goomba");
+    setName("ghost");
     setRotatable(false);
   }
 
@@ -36,19 +36,20 @@ class ghost extends FGameObject {
   }
 
   void collide() {
-    if (isTouching("gwall")) {
+    if (isTouching("gwall")||isTouching("bird")||isTouching("koopa")||isTouching("goomba")) {
       direction*=-1;
       setPosition(getX()+direction, getY());
     }
     if (isTouching("player")) {
       if (player.getY()<getY()-gridSize/2) {
+        score=score+100;
         world.remove(this);
         enemies.remove(this);
         player.setVelocity(player.getVelocityX(), -300);
       } else {
 
         player.setPosition(respawnx, respawny);
-        if(starOn==false){
+        if(immune==false){
         lives=lives--;
         }
       }

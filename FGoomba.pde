@@ -31,7 +31,7 @@ class FGoomba extends FGameObject {
   }
 
   void collide() {
-    if (isTouching("gwall")) {
+    if (isTouching("gwall")||isTouching("ghost")||isTouching("bird")||isTouching("koopa")) {
       direction*=-1;
       setPosition(getX()+direction, getY());
     }
@@ -41,8 +41,9 @@ class FGoomba extends FGameObject {
 
 
     if (isTouching("player")) {
-      if (!starOn) {
+      if (!immune) {
         if (player.getY()<getY()-gridSize/2) {
+          score=score+100;
           world.remove(this);
           enemies.remove(this);
           player.setVelocity(player.getVelocityX(), -300);
@@ -50,7 +51,7 @@ class FGoomba extends FGameObject {
           lives--;
           player.setPosition(respawnx, respawny);
         }
-      } else if (starOn) {
+      } else if (immune) {
 
         world.remove(this);
         enemies.remove(this);
@@ -95,7 +96,7 @@ class HammerBro extends FGoomba {
       if (sensorTouching(player, "ahammer")) {
         println("Player touched ahammer!");
 
-        if (!starOn) {
+        if (!immune) {
           player.setPosition(respawnx, respawny);
           lives=lives--;
         }

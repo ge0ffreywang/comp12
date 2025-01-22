@@ -1,7 +1,8 @@
 class FPlayer extends FGameObject {
   int i=500;
   int starTimer=i;
-
+  boolean canDash;
+  int dashtimer=250;
   boolean canTakeDamage = true;
   int direction;
   int frame;
@@ -23,12 +24,24 @@ class FPlayer extends FGameObject {
     //println(enemies.size());
   }
   void damage() {
+    if (immune) {
+      sound.levelAudio.pause();
+      sound.courseClearAudio.play();
+    } else {
+      sound.courseClearAudio.pause();
+      sound.courseClearAudio.rewind();
+      sound.levelAudio.play();
+    }
 
+    if (isTouching("tramp")) {
+      sound.slime.rewind();
+       sound.slime.play();
+    }
 
-    if (starOn) {
+    if (immune) {
       starTimer--;
       if (starTimer <= 0) {
-        starOn = false;
+        immune = false;
         starTimer = i;
       }
     }
@@ -51,35 +64,57 @@ class FPlayer extends FGameObject {
   void input() {
     float vy= getVelocityY();
     float vx= getVelocityX();
-    if (abs(vy)<0.1 && !starOn) {
+
+    if (spacekey && canDash) {
+
+      canDash = false;
+      sound.marioKickAudio.play();
+      sound.marioKickAudio.rewind();
+
+      if (direction == R) {
+        setVelocity(750, vy);
+      } else if (direction == L) {
+        setVelocity(-750, vy);
+      }
+    }
+
+    if (!canDash ) {
+      dashtimer--;
+      if (dashtimer <= 0) {
+        canDash = true;
+        dashtimer = 250;
+      }
+    }
+
+    if (abs(vy)<0.1 && !immune) {
       action=idle;
     }
 
-    if (abs(vy)<0.1 && starOn) {
+    if (abs(vy)<0.1 && immune) {
       action=idleStar;
     }
-    if (akey && !starOn) {
+    if (akey && !immune) {
       action=run;
-      setVelocity(-300, vy);
+      setVelocity(-200, vy);
       direction=L;
     }
-    if (akey && starOn) {
+    if (akey && immune) {
       action=runStar;
-      setVelocity(-300, vy);
+      setVelocity(-200, vy);
       direction=L;
     }
-    if (dkey && !starOn) {
+    if (dkey && !immune) {
       action=run;
-      setVelocity(300, vy);
+      setVelocity(200, vy);
       direction=R;
     }
-    if (dkey && starOn) {
+    if (dkey && immune) {
       action=runStar;
-      setVelocity(300, vy);
+      setVelocity(200, vy);
       direction=R;
     }
     if (wkey && canJump()) {
-      setVelocity(vx, -500);
+      setVelocity(vx, -550);
       sound.marioJumpAudio.play();
       sound.marioJumpAudio.rewind();
     }
@@ -87,17 +122,17 @@ class FPlayer extends FGameObject {
     if (skey) {
       setVelocity(vx, 500);
     }
-    if (abs(vy)>0.1 && !starOn) {
+    if (abs(vy)>0.1 && !immune) {
       action=jump;
     }
-    if (abs(vy)>0.1 && starOn) {
+    if (abs(vy)>0.1 && immune) {
       action=jumpStar;
     }
   }
 
   void collisions() {
 
-    if (touchingSpikes() && starOn==false) {
+    if (touchingSpikes() && immune==false) {
       setPosition(respawnx, respawny);
       lives--;
     }
@@ -107,20 +142,20 @@ class FPlayer extends FGameObject {
     if (touchingStone()) {
       setFriction(7);
     }
-    if (trampoline()) {
-      setVelocity(0, -700);
-    }
+    //if (trampoline()) {
+    //  setVelocity(0, getVelocityY());
+    //}
 
-    if (touchingAHammer() && starOn==false) { // Add this check
+    if (touchingAHammer() && immune==false) { // Add this check
       println("Player touched ahammer!");
       setPosition(respawnx, respawny);
       lives--;
     }
 
-    if (getY()>1700 && starOn==false) {
+    if (getY()>1700 && immune==false) {
       setPosition(respawnx, respawny);
       lives--;
-    }else if (getY()>1700 && starOn) {
+    } else if (getY()>1700 && immune) {
       setPosition(respawnx, respawny);
     }
   }
@@ -128,9 +163,10 @@ class FPlayer extends FGameObject {
     ArrayList<FContact> contactList = player.getContacts();
     for (int i = 0; i < contactList.size(); i++) {
       FContact fc = contactList.get(i);
-      if (fc.contains("stone") || fc.contains("gwall") || fc.contains("respawn") ||
-        fc.contains("treetrunk") || fc.contains("spikes") || fc.contains("ice") ||
-        fc.contains("bridge")) {
+      if (fc.contains("stone") || fc.contains("gwall") || fc.contains("respawn")  || fc.contains("spikes") || fc.contains("ice") ||
+        fc.contains("bridge")|| fc.contains("avgtreeleave") ||
+        fc.contains("leftleave") ||
+        fc.contains("rightleave") || fc.contains("trampoline")) {
         return true;
       }
     }

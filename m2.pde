@@ -1,5 +1,6 @@
 void m2() {
-  background(white);
+  background(0);
+  face.show();
   drawWorld();
   actWorld();
   player.act();
@@ -13,4 +14,6 @@ void m2() {
 }
 
 void m2Clicks() {
+  mode=M3;
+  pause=1;
 }

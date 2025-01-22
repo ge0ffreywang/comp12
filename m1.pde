@@ -1,5 +1,5 @@
 void m1() {
-  background(white);
+  background(0);
   drawWorld();
   actWorld();
 
@@ -15,4 +15,6 @@ void m1() {
 }
 
 void m1Clicks() {
+  mode=M3;
+  pause=1;
 }

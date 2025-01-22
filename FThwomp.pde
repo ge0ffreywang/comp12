@@ -49,13 +49,13 @@ class FThwomp extends FGameObject {
     if (isTouching("player")) {
       if (player.getY()>getY()+gridSize/2) {
 
-        if (!starOn) {
+        if (!immune) {
           player.setPosition(respawnx, respawny);
           lives--;
         }
       }
     }
-    if (isTouching("player") && starOn) {
+    if (isTouching("player") && immune) {
       state=3;
     }
     setPosition(restingX, getY());

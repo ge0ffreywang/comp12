@@ -12,15 +12,20 @@ PFont font;
 FWorld world;
 int mode;
 int lives;
+int score=0;
+int pause;
 final int INTRO = 0;
 final int M1 = 1;
 final int M2 = 2;
-final int M3 = 3;
+final int WIN = 3;
 final int GAMEOVER = 4;
-float respawnx=0, respawny=-300;
+final int CHOOSE=5;
+final int M3=6;
+float respawnx=100, respawny=50;
 int doublejump=2;
-boolean starOn=false;
+boolean immune=false;
 
+Gif face;
 //set sensor
 color white      =#FFFFFF;
 color black      =#000000;
@@ -44,11 +49,14 @@ color cflag      =#5e0000;
 color cheart     =#e8af13;
 color cghost     =#ff80ff;
 color cstar      =#de95d5;
+color cbird      =#cafc53;
+color ckoopa     =#ada187;
+color cboo       =#a2f5bb;
 Button playButton;
-PImage map1, map2;
-PImage homeScreen, gameOver, youWin;//here
+PImage map1, map2,map3;
+PImage homeScreen, gameOver, youWin,chooseScreen;//here
 PImage  ice, stone, treeTrunk, treeLeaves, lefttree, midtree, righttree, spike, tramp, bridge, hammer, flag, heart, noheart, ghost, noghost;
-PImage star;
+PImage star,wood,birchleave,frame;
 PImage[] idle;
 PImage[] jump;
 PImage[] run;
@@ -62,7 +70,11 @@ PImage[] hammerbropic;
 PImage[] thwomp;
 PImage[] respawn;
 PImage[] map;
-float zoom=1.5;
+PImage[]bird;
+PImage[] boo;
+PImage[] koopa;
+PImage[] shell;
+float zoom=1.3;
 int gridSize=32;
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey, ekey;
 boolean resetOnce;
@@ -82,10 +94,11 @@ void setup() {
   enemies=new ArrayList<FGameObject>();
   playButton = new Button(new PVector(width/2, height/2+50), "images/playGame.png");
   loadImages();
-  loadWorld(map1);
+  face=new Gif("ash/24c841cf-c0d9-42fa-897e-aa197f81ac07-", ".jpg",20,5, 0,0);
+  //loadWorld(map1);
   //loadWorld(map2);
   //loadWorld(map[1]);
-  loadPlayer();
+  //loadPlayer();
   //font = loadFont("BerlinSansFBDemi-Bold-48.vlw");
 }
 
@@ -93,8 +106,10 @@ void loadImages() {
   homeScreen = loadImage("images/homeScreen.png");
   gameOver = loadImage("images/gameOver.png");
   youWin = loadImage("images/youWin.png");
+  chooseScreen= loadImage("images/generalScreen.png");
   map1=loadImage("pixil-frame-0.png");
   map2=loadImage("map2.png");
+  map3=loadImage("map3.png");
   spike=loadImage("images/spike.png");
   ice=loadImage("images/blueBlock.png");
   stone=loadImage("images/stone0.png");
@@ -108,7 +123,10 @@ void loadImages() {
   bridge=loadImage("images/bridge.png");
   bridge.resize(gridSize, gridSize);
   hammer=loadImage("images/hammer.png");
-
+  wood=loadImage("images/wood.jpg");
+  wood.resize(gridSize, gridSize);
+  birchleave=loadImage("images/treeleave.jpg");
+  birchleave.resize(gridSize, gridSize);
   flag = loadImage("images/flag.png");
   flag.resize(gridSize, gridSize);
   heart = loadImage("images/heart.png");
@@ -116,10 +134,11 @@ void loadImages() {
   noheart = loadImage("images/noHeart.png");
   noheart.resize(gridSize, gridSize);
   ghost=loadImage("images/ghost.png");
-  ghost.resize(gridSize, gridSize);          
+  ghost.resize(gridSize, gridSize);
   noghost=loadImage("images/noghost.png");
-  star=loadImage("images/star.png"); 
-  star.resize(gridSize, gridSize); 
+  star=loadImage("images/star.png");
+  star.resize(gridSize, gridSize);
+  frame=loadImage("images/frame.png");
   respawn = new PImage [2];
   respawn[0] = loadImage ("images/lucky.png") ;
   respawn[0].resize(gridSize, gridSize);
@@ -179,6 +198,46 @@ void loadImages() {
   thwomp[1]=loadImage("images/thwomp1.png");
   thwomp[1].resize(gridSize*2, gridSize*2);
 
+  bird= new PImage[5];
+  bird[0]=loadImage("images/bird0.png");
+  bird[0].resize(gridSize, gridSize);
+  bird[1]=loadImage("images/bird1.png");
+  bird[1].resize(gridSize, gridSize);
+  bird[2]=loadImage("images/bird2.png");
+  bird[2].resize(gridSize, gridSize);
+  bird[3]=loadImage("images/bird3.png");
+  bird[3].resize(gridSize, gridSize);
+  bird[4]=loadImage("images/bird4.png");
+  bird[4].resize(gridSize, gridSize);
+  
+   koopa= new PImage[2];
+  koopa[0]=loadImage("images/shell/koopaRight0.png");
+  koopa[0].resize(gridSize, gridSize);
+  koopa[1]=loadImage("images/shell/koopaRight1.png");
+  koopa[1].resize(gridSize, gridSize);
+
+  shell= new PImage[4];
+  shell[0]=loadImage("images/shell/shell0.png");
+  shell[0].resize(gridSize, gridSize);
+  shell[1]=loadImage("images/shell/shell1.png");
+  shell[1].resize(gridSize, gridSize);
+  shell[2]=loadImage("images/shell/shell2.png");
+  shell[2].resize(gridSize, gridSize);
+  shell[3]=loadImage("images/shell/shell3.png");
+  shell[3].resize(gridSize, gridSize);
+  
+   boo=new PImage[5];
+  boo[0]=loadImage("images/boo/soldierRight0.png");
+  boo[0].resize(gridSize, gridSize);
+  boo[1]=loadImage("images/boo/soldierRight1.png");
+  boo[1].resize(gridSize, gridSize);
+  boo[2]=loadImage("images/boo/soldierShell0.png");
+  boo[2].resize(gridSize, gridSize);
+  boo[3]=loadImage("images/boo/soldierShell1.png");
+  boo[3].resize(gridSize, gridSize);
+  boo[4]=loadImage("images/boo/soldierShell2.png");
+  boo[4].resize(gridSize, gridSize);
+  
   map= new PImage[3];
   map[0]=loadImage("pixil-frame-0.png");
   map[1]=loadImage("map2.png");
@@ -219,7 +278,7 @@ void loadWorld(PImage img) {
         b.setStatic(true);
         b.setGrabbable(false);
         b.setName("treetrunk");
-        b.attachImage(treeTrunk);
+        b.attachImage(wood);
         world.add(b);
       }
       if (c==lblue) {
@@ -236,7 +295,7 @@ void loadWorld(PImage img) {
         b.setStatic(true);
         b.setGrabbable(false);
         // b.setSensor(true);
-        b.attachImage(treeLeaves);
+        b.attachImage(birchleave);
         b.setName("avgtreeleave'");
         world.add(b);
       }
@@ -245,8 +304,8 @@ void loadWorld(PImage img) {
         b.setStatic(true);
         b.setGrabbable(false);
         // b.setSensor(true);
-        b.attachImage(lefttree);
-        b.setName("leftleave'");
+        b.attachImage(birchleave);
+        b.setName("leftleave");
         world.add(b);
       }
       if (c==green && e != green) {//right
@@ -254,7 +313,7 @@ void loadWorld(PImage img) {
         b.setStatic(true);
         b.setGrabbable(false);
         //b.setSensor(true);
-        b.attachImage(righttree);
+        b.attachImage(birchleave);
         b.setName("rightleave");
         world.add(b);
       }
@@ -263,7 +322,7 @@ void loadWorld(PImage img) {
         b.setStatic(true);
         //b.setSensor(true);
         b.setGrabbable(false);
-        b.attachImage(midtree);
+        b.attachImage(birchleave);
         b.setName("midtree");
         world.add(b);
       }
@@ -272,6 +331,7 @@ void loadWorld(PImage img) {
         b.setStatic(true);
         b.setGrabbable(false);
         b.setName("trampoline");
+        b.setRestitution(1.3);
         tramp.resize(gridSize, gridSize);
         b.attachImage(tramp);
         world.add(b);
@@ -327,6 +387,21 @@ void loadWorld(PImage img) {
         terrain.add(flag);
         world.add(flag);
       }
+      if (c==cbird) {
+        FBird gmb= new FBird(x*gridSize, y*gridSize);
+        enemies.add(gmb);
+        world.add(gmb);
+      }
+      if (c==ckoopa) {
+        FKoopa kpa= new FKoopa(x*gridSize, y*gridSize, koopa);
+        enemies.add(kpa);
+        world.add(kpa);
+      }
+      if (c==cboo) {
+        FBoo bo= new FBoo(x*gridSize, y*gridSize,boo);
+        enemies.add(bo);
+        world.add(bo);
+      }
     }
   }
 }
@@ -355,7 +430,7 @@ void loadPlayer() {
 void mousePressed() {
   if (mode == INTRO) {
     if (playButton.buttonPressed()) {
-      mode = M1;
+      mode = CHOOSE;
       imageMode(CORNER);
       sound.homeAudio.close();
     }
@@ -387,13 +462,18 @@ void draw() {
       sound.levelAudio.rewind();
       sound.levelAudio.play();
     }
-  } else if (mode == M3) {
+  } else if (mode == WIN) {
     sound.levelAudio.close();
-    m3();
+    win();
   } else if (mode == GAMEOVER) {
     sound.levelAudio.close();
     gameover();
+  }else if (mode == CHOOSE) {
+    choose();
   }
+   else if (mode == M3) {
+    m3();
+   }
 }
 
 void actWorld() {

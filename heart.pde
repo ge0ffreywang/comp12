@@ -12,7 +12,8 @@ class Fheart extends FGameObject {
   void act() {
     if (isTouching("player")) {
       setStatic(false);
-      lives=5;
+      lives=5+5;
+      score=score+150;
     }
   }
 }

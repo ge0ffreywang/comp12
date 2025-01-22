@@ -2,15 +2,14 @@ class Button {
 
   // PROPERTIES OF BUTTON...
   PVector location;
-  PVector dimension;
 
   // IMAGE OF THE BUTTON...
   PImage textImg;
 
-  Button(PVector location, String txtLoc) {
+  Button(PVector input_location, String txtLoc) {
     // Constructor that sets up the data...
 
-    this.location = location;
+    location = input_location;
 
     textImg = loadImage(txtLoc);
   }

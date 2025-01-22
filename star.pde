@@ -13,9 +13,9 @@ class FStar extends FGameObject {
     if (isTouching("player")) {
       terrain.remove(this);
       world.remove(this);
+      score=score+300;
 
-
-    starOn = true;
+    immune = true;
 
  
     }
